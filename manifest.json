@@ -16,6 +16,7 @@
     ],
     "persistent": true
   },
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "options_page": "src/options_custom/index.html",
   "browser_action": {
     "default_icon": "icons/icon19.png",
@@ -25,6 +26,7 @@
   "permissions": [
     "contentSettings",
     "cookies",
-    "notifications"
+    "notifications",
+    "*://*/*"
   ]
 }
