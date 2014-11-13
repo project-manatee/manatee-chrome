@@ -1,0 +1,3 @@
+[submodule "manatee-scraper-js"]
+	path = manatee-scraper-js
+	url = https://github.com/project-manatee/manatee-scraper-js.git
