@@ -27,6 +27,7 @@
     "contentSettings",
     "cookies",
     "notifications",
-    "*://*/*"
+    "*://*/*",
+	"storage"
   ]
 }
