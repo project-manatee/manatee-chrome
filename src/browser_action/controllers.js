@@ -9,6 +9,8 @@ gradesApp.controller('LoginCtrl', ['$scope', '$location',
                 if (loggedInObj.loggedIn) {
                     console.log($location);
                     $location.path('/view');
+                } else {
+                	$location.path('/login');
                 }
             });
         }
@@ -30,7 +32,7 @@ gradesApp.controller('ViewCtrl', ['$scope', '$location',
     }
 ]);
 
-gradesApp.config(['$routeProvider',
+gradesApp.config(['$routeProvider', '$locationProvider',
     function($routeProvider, $locationProvider) {
         $routeProvider.when('/login', {
             templateUrl: "partials/login.html",
