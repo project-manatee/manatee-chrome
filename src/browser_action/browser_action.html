@@ -5,11 +5,14 @@
     	<script src="controllers.js"></script>
         <script data-main="compiler" src="../../manatee-scraper-js/ManaTEAMS/require.js"></script> 
     </head>
-    <body ng-controller="GradesCtrl">
-        <ul>
-        	<li ng-repeat="course in grades">
-        	<span>{{course.title}}</span>
-        	</li>
-        </ul>
+    <body>
+    <div ng-controller="GradesCtrl">
+        <form novalidate class="credentialform">
+            Username: <input ng-model="user.username" type="text" id="username">
+            Password: <input ng-model="user.password" type="password" id="password">
+            <button ng-click="updateCredentials(user)">Update Credentials</button>
+            <button ng-click="updateGrades()">Update Course Grades</button>
+        </form>
+    </div>
     </body>
 </html>
