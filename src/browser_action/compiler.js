@@ -11,5 +11,7 @@ require(['sha1', 'jquery-2.1.1.min', 'TEAMSParser'],
             'classes/Course',
             'classes/Cycle',
             'ManaTEAMS'
-        ]);
+        ], function() {
+            require(['../util.js']);
+        });
     });
