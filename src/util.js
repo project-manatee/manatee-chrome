@@ -24,35 +24,27 @@ function RememberedGrades() {
 	};
 	
 	this.updateGrades = function (callback) {
-		updated = false;
 		chrome.storage.local.get(['username', 'password'], function (item) {
 			if (!('username' in item && 'password' in item)) {
 				return;
 			}
-			console.log('1');
 			var manaTEAMS = new ManaTEAMS(item.username, item.password);
-			console.log('2');
 			manaTEAMS.login(function(selectInfo) {
 				manaTEAMS.getAllCourses(function(html, courses) {
-					chrome.storage.local.set('courses', courses);
+					chrome.storage.local.set({'courses': courses});
 					callback(courses);
-					updated = true;
 				});
 			});
 		});
-		return updated;
 	};
 
 	this.getGrades = function (callback) {
-		success = false;
 		chrome.storage.local.get('courses', function (item) {
 			if (! ('courses' in item)) {
 				return;
 			}
 			callback(item.courses);
-			success = true;
 		});
-		return success;
 	};
 }
 
