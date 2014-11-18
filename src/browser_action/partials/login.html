@@ -1,0 +1,8 @@
+<div ng-controller="LoginCtrl">
+    <form novalidate class="credentialform">
+        Username: <input ng-model="user.username" type="text" id="username">
+        Password: <input ng-model="user.password" type="password" id="password">
+        <button ng-click="updateCredentials(user)">Update Credentials</button>
+        <button ng-click="updateGrades()">Update Course Grades</button>
+    </form>
+</div>

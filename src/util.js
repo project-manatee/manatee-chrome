@@ -54,6 +54,11 @@ chrome.storage.local.get(['username', 'password'], function (item) {
 		rememberedGrades.updateGrades(function (courses) {
 			console.log('courses?');
 			console.log(courses);
-		});;
+			chrome.storage.local.set({loggedIn:true});
+			redirectIfLoggedIn();
+		});
+	} else {
+		chrome.storage.local.set({loggedIn:false});
+		redirectIfLoggedIn();
 	}
 });
