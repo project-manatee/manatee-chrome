@@ -37,9 +37,7 @@ gradesApp.controller('LoginCtrl', ['$scope', '$location', '$rootScope',
             rememberedGrades.updateCredentials(updatedUser.username, updatedUser.password);
         };
         $scope.viewGrades = function() {
-            $rootScope.$apply(function() {
-                $location.path('/viewGrades');
-            });
+            $location.path('/viewGrades');
         }
         $scope.updateGrades = function() {
             rememberedGrades.updateGrades();
