@@ -46,14 +46,19 @@ gradesApp.controller('LoginCtrl', ['$scope', '$location', '$rootScope',
 ]);
 gradesApp.controller('GradesCtrl', ['$scope', '$location', '$rootScope',
     function($scope, $location, $rootScope) {
+
+        $scope.grades = 'loading';
         chrome.storage.local.get(['courses'], function(item) {
-            $scope.grades = item.courses;
+            $scope.$apply(function() {
+                $scope.grades = item.courses;
+            });
         });
         $scope.getGrades = function() {
             rememberedGrades.updateGrades();
             chrome.storage.local.get(['courses'], function(item) {
-                console.log(item.courses);
-                $scope.grades = item.courses;
+                $scope.$apply(function() {
+                    $scope.grades = item.courses;
+                });
             });
         };
         $scope.logout = function() {
