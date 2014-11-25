@@ -49,16 +49,16 @@ function RememberedGrades() {
 }
 rememberedGrades = new RememberedGrades();
 
-chrome.storage.local.get(['username', 'password'], function (item) {
-	if ('username' in item && 'password' in item) {
-		rememberedGrades.updateGrades(function (courses) {
-			console.log('courses?');
-			console.log(courses);
-			chrome.storage.local.set({loggedIn:true});
-			redirectIfLoggedIn();
-		});
-	} else {
-		chrome.storage.local.set({loggedIn:false});
-		redirectIfLoggedIn();
-	}
-});
+// chrome.storage.local.get(['username', 'password'], function (item) {
+// 	if ('username' in item && 'password' in item) {
+// 		rememberedGrades.updateGrades(function (courses) {
+
+// 			console.log(courses);
+// 			chrome.storage.local.set({loggedIn:true});
+
+// 		});
+// 	} else {
+// 		chrome.storage.local.set({loggedIn:false});
+
+// 	}
+// });
