@@ -16,8 +16,12 @@ gradesApp.config(['$routeProvider',
             controller: 'LoginCtrl'
         });
         $routeProvider.when('/viewGrades', {
-            templateUrl: 'partials/view.html',
+            templateUrl: 'partials/viewCourses.html',
             controller: 'GradesCtrl'
+        });
+        $routeProvider.when('/viewCycle', {
+            templateUrl: 'partials/viewCycle.html',
+            controller: 'CycleCtrl'
         });
     }
 ]);
@@ -39,6 +43,9 @@ gradesApp.controller('LoginCtrl', ['$scope', '$location', '$rootScope',
         $scope.viewGrades = function() {
             $location.path('/viewGrades');
         }
+        $scope.exampleCycle = function() {
+            $location.path('/viewCycle');
+        }
         $scope.updateGrades = function() {
             rememberedGrades.updateGrades();
         };
@@ -46,8 +53,6 @@ gradesApp.controller('LoginCtrl', ['$scope', '$location', '$rootScope',
 ]);
 gradesApp.controller('GradesCtrl', ['$scope', '$location', '$rootScope',
     function($scope, $location, $rootScope) {
-
-        $scope.grades = 'loading';
         chrome.storage.local.get(['courses'], function(item) {
             $scope.$apply(function() {
                 $scope.grades = item.courses;
@@ -60,6 +65,24 @@ gradesApp.controller('GradesCtrl', ['$scope', '$location', '$rootScope',
                     $scope.grades = item.courses;
                 });
             });
+        };
+        $scope.logout = function() {
+            chrome.storage.local.clear(function() {
+                $rootScope.$apply(function() {
+                    $location.path('/loginPage');
+                });
+            });
+        }
+    }
+]);
+
+gradesApp.controller('CycleCtrl', ['$scope', '$location', '$rootScope', '$http',
+    function($scope, $location, $rootScope, $http) {
+        $http.get('exampleCycle.json').success(function(data) {
+            $scope.classGrade = data;
+        });
+        $scope.viewCourses = function() {
+            $location.path('/viewGrades');
         };
         $scope.logout = function() {
             chrome.storage.local.clear(function() {

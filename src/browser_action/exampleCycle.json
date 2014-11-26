@@ -1,0 +1,90 @@
+{
+    "urlHash": "",
+    "period": "02",
+    "semesterIndex": 0,
+    "cycleIndex": 1,
+    "average": "98",
+    "title": "ART 1",
+    "categories": [{
+        "title": "Major Grade: Project, Lab, Essay, etc",
+        "id": "15df091bdbb21eb95995fd9c9aabe5217f41fc06",
+        "weight": "50",
+        "average": "98",
+        "bonus": "",
+        "assignments": [{
+            "id": "f81187e06641cc8c62012c2c61c16486731b401e",
+            "title": "Self-portrait",
+            "dateAssigned": "10-06-2014",
+            "dateDue": "11-05-2014",
+            "ptsEarned": 100,
+            "ptsPossible": "100",
+            "weight": 1,
+            "note": " ",
+            "extraCredit": false
+        }, {
+            "id": "addadc324abf18512e4e72ad7fec59a9855a7eb2",
+            "title": "Self-Portrait Underdrawing",
+            "dateAssigned": "10-13-2014",
+            "dateDue": "10-20-2014",
+            "ptsEarned": 95,
+            "ptsPossible": "100",
+            "weight": 1,
+            "note": " ",
+            "extraCredit": false
+        }]
+    }, {
+        "title": "Quiz, Unit Test",
+        "id": "33aaff408a1216f789789bbbf0cfeda2ee389b28",
+        "weight": "25",
+        "average": "98",
+        "bonus": "",
+        "assignments": [{
+            "id": "5c61e4f26f3d91804addeeab665e6edae5ac1500",
+            "title": "portrait drawing skills",
+            "dateAssigned": "11-05-2014",
+            "dateDue": "11-05-2014",
+            "ptsEarned": 100,
+            "ptsPossible": "100",
+            "weight": 1,
+            "note": " ",
+            "extraCredit": false
+        }, {
+            "id": "de72031ed69d64c16bf6eb888de4d2324568dddf",
+            "title": "Grid drawn cleanly + understanding of pen",
+            "dateAssigned": "10-13-2014",
+            "dateDue": "10-22-2014",
+            "ptsEarned": 95,
+            "ptsPossible": "100",
+            "weight": 1,
+            "note": " ",
+            "extraCredit": false
+        }]
+    }, {
+        "title": "Daily Grade, Homework",
+        "id": "7af5f13335be161e95c8805b8b520428313f2e3e",
+        "weight": "25",
+        "average": "100",
+        "bonus": "",
+        "assignments": [{
+            "id": "e7e99ebc1676fde9796c9f3228e0295bd40a196b",
+            "title": "Pastel square in sketchbook",
+            "dateAssigned": "11-03-2014",
+            "dateDue": "11-05-2014",
+            "ptsEarned": 100,
+            "ptsPossible": "100",
+            "weight": 1,
+            "note": " ",
+            "extraCredit": false
+        }, {
+            "id": "fbeb443c40d988489ad4241a7a5d1255101601a7",
+            "title": "All graphite finished + pen started on time",
+            "dateAssigned": "10-15-2014",
+            "dateDue": "10-22-2014",
+            "ptsEarned": 100,
+            "ptsPossible": "100",
+            "weight": 1,
+            "note": " ",
+            "extraCredit": false
+        }]
+    }]
+}

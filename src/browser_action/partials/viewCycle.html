@@ -1,0 +1,41 @@
+<table ng-table>
+    <tr>
+        <td data-title="'Period'">{{classGrade.period}}</td>
+        <td data-title="'Title'">{{classGrade.title}}</td>
+        <td data-title="'Cycle'">{{classGrade.semesterIndex*3 + classGrade.cycleIndex}}</td>
+    </tr>
+    <tr>
+        <td>Weight</td>
+        <td>Title</td>
+        <td>Average</td>
+    </tr>
+    <tr ng-repeat="category in classGrade.categories">
+        <td data-title="'Weight'">{{category.weight}}</td>
+        <td data-title="'Title'">{{category.title}}</td>
+        <td data-title="'Average'">{{category.average}}</td>
+        <td>
+            <table border="1" ng-table>
+                <tr>
+                    <td>Assigned</td>
+                    <td>Due</td>
+                    <td>points earned</td>
+                    <td>points possible</td>
+                    <td>assignment</td>
+                    <td>weight</td>
+                    <td>note</td>
+                </tr>
+                <tr ng-repeat="assignment in category.assignments">
+                    <td data-title="'Assigned'">{{assignment.dateAssigned}}</td>
+                    <td data-title="'Due'">{{assignment.dateDue}}</td>
+                    <td data-title="'points earned'">{{assignment.ptsEarned}}</td>
+                    <td data-title="'points possible'">{{assignment.ptsPossible}}</td>
+                    <td data-title="'title'">{{assignment.title}}</td>
+                    <td data-title="'weight'">{{assignment.weight}}</td>
+                    <td data-title="'note'">{{assignment.note}}</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<button ng-click="viewCourses()">view course grades</button>
+<button ng-click="logout()">logout</button>
