@@ -1,4 +1,15 @@
 
-    {{grades | json}}
+    <table ng-table>
+    <tr ng-repeat="course in grades">
+        <td data-title="'Teacher'">{{course.teacher}}</td>
+        <td data-title="'Class'">{{course.title}}</td>
+        <td data-title="'Cycle 1'">{{course.semesters[0].cycles[0].average || "NG"}}</td>
+        <td data-title="'Cycle 2'">{{course.semesters[0].cycles[1].average || "NG"}}</td>
+        <td data-title="'Cycle 3'">{{course.semesters[0].cycles[2].average || "NG"}}</td>
+        <td data-title="'Cycle 4'">{{course.semesters[1].cycles[0].average || "NG"}}</td>
+        <td data-title="'Cycle 5'">{{course.semesters[1].cycles[1].average || "NG"}}</td>
+        <td data-title="'Cycle 6'">{{course.semesters[1].cycles[2].average || "NG"}}</td>
+    </tr>
+    </table>
     <button ng-click="getGrades()">get Course Grades</button>
     <button ng-click="logout()">logout</button>
