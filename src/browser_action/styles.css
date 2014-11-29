@@ -1,0 +1,12 @@
+table {
+	font-family: sans-serif;
+}
+
+table tr td.title {
+	font-weight: bold;
+	min-width: 50px;
+}
+
+table tr td {
+	padding: 12px;
+}
