@@ -1,12 +1,78 @@
-table {
-	font-family: sans-serif;
+body {
+	font-family: 'Roboto', sans-serif;
+	background-color: #E6E6E6;
+}
+
+.courseHeader {
+	display: block;
+	margin:auto;
+	width: 100%;
+	height: 50px;
+}
+
+.courseTitle, .courseCycle {
+	font-size: 40px;
+	font-weight: 300;
+	margin: 0px;
+	display: inline-block;
+}
+
+.courseTitle {
+	float: left;
+}
+
+.courseCycle {
+	float: right;
+}
+
+.categoryHeader {
+	height: 50px;
+}
+
+.categoryAverage {
+	font-size: 18px;
+	padding: 0px 0px 0px 0px;
+	margin: 12px 12px 12px 12px;
+}
+
+.categoryWeight, .categoryTitle {
+	font-size: 24px;
+	display: inline-block;
+	font-weight: 300;
+	padding: 0px 0px 0px 0px;
+	margin: 12px 12px 12px 12px;
+}
+
+.categoryWeight {
+	float: right;
+}
+
+.categoryTitle {
+	float: left;
+}
+
+.category {
+	-moz-box-shadow: inset 0 0 5px #888;
+    -webkit-box-shadow: inset 0 0 5px #888;
+    box-shadow: inset 1px 1px 5px #888;
+	background-color: #FFF;
+	margin: 24px 12px 24px 12px;
+	display:block;
+	box-shadow: 10px 10px 5px #888;
+}
+
+.categoryInner {
+	padding: 12px 12px 24px 12px;
 }
 
 table tr td.title {
 	font-weight: bold;
-	min-width: 50px;
 }
 
-table tr td {
+table tr td { 
+	text-align:center; 
+    vertical-align:middle;
+	min-width: 60px;
+	margin: 24px;
 	padding: 12px;
 }
