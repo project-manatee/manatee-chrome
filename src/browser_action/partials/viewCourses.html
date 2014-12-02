@@ -12,11 +12,9 @@
     <tr ng-repeat="course in grades" ng-init="course_index = $index" >
         <td data-title="'Teacher'">{{course.teacher}}</td>
         <td data-title="'Class'">{{course.title}}</td>
-		<span ng-repeat="semester in course.semesters" ng-init="semester_index = $index">
-			<td ng-repeat="cycle in course.semesters[0].cycles" ng-init="cycle_index = $index">
-				<a ng-click="getCycle({{course_index}}, {{semester_index}}, {{cycle_index}})">{{cycle.average}}</a>
-			</td> 
-		</span>
+		<td ng-repeat="cycle in course.allCycles" ng-init="cycle_index = $index">
+			<a ng-click="getCycle(course_index, cycle_index)">{{cycle.average}}</a>
+		</td>
     </tr>
 </table>
 <button ng-click="getGrades()">get Course Grades</button>
