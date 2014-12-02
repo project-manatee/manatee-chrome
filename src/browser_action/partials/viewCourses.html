@@ -9,16 +9,14 @@
         <td class="title">Cycle 5</td>
         <td class="title">Cycle 6</td>
     </tr>
-    <tr ng-repeat="course in grades">
+    <tr ng-repeat="course in grades" ng-init="course_index = $index" >
         <td data-title="'Teacher'">{{course.teacher}}</td>
         <td data-title="'Class'">{{course.title}}</td>
-        <!-- TODO make this not hardcoded 6 cycles !-->
-        <td data-title="'Cycle 1'">{{course.semesters[0].cycles[0].average || "NG"}}</td>
-        <td data-title="'Cycle 2'">{{course.semesters[0].cycles[1].average || "NG"}}</td>
-        <td data-title="'Cycle 3'">{{course.semesters[0].cycles[2].average || "NG"}}</td>
-        <td data-title="'Cycle 4'">{{course.semesters[1].cycles[0].average || "NG"}}</td>
-        <td data-title="'Cycle 5'">{{course.semesters[1].cycles[1].average || "NG"}}</td>
-        <td data-title="'Cycle 6'">{{course.semesters[1].cycles[2].average || "NG"}}</td>
+		<span ng-repeat="semester in course.semesters" ng-init="semester_index = $index">
+			<td ng-repeat="cycle in course.semesters[0].cycles" ng-init="cycle_index = $index">
+				<a ng-click="getCycle({{course_index}}, {{semester_index}}, {{cycle_index}})">{{cycle.average}}</a>
+			</td> 
+		</span>
     </tr>
 </table>
 <button ng-click="getGrades()">get Course Grades</button>

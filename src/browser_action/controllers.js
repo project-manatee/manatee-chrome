@@ -72,7 +72,7 @@ gradesApp.controller('GradesCtrl', ['$scope', '$location', '$rootScope',
                     $location.path('/loginPage');
                 });
             });
-        }
+        };
     }
 ]);
 
