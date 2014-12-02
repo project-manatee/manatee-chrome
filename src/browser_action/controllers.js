@@ -42,10 +42,10 @@ gradesApp.controller('LoginCtrl', ['$scope', '$location', '$rootScope',
         };
         $scope.viewGrades = function() {
             $location.path('/viewGrades');
-        }
+        };
         $scope.exampleCycle = function() {
             $location.path('/viewCycle');
-        }
+        };
         $scope.updateGrades = function() {
             rememberedGrades.updateGrades();
         };
@@ -90,6 +90,6 @@ gradesApp.controller('CycleCtrl', ['$scope', '$location', '$rootScope', '$http',
                     $location.path('/loginPage');
                 });
             });
-        }
+        };
     }
 ]);
