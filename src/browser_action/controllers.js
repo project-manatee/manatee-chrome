@@ -61,20 +61,9 @@ gradesApp.controller('GradesCtrl', ['$scope', '$location', '$rootScope',
         $scope.getGrades = function() {
             rememberedGrades.updateGrades();
             chrome.storage.local.get(['courses'], function(item) {
-				grades = item.courses;
-				for (var i = 0; i < grades.length; ++i) {
-					grades[i].allCycles = [];
-					for (var j = 0; j < grades[i].semesters.length; ++j) {
-						for (var k = 0; k < grades[i].semesters[j].cycles.length; ++k) {
-							grades[i].semesters[j].cycles[k].semesterId = j;
-							grades[i].semesters[j].cycles[k].cycleId = k;
-							grades[i].allCycles.push(grades[i].semesters[j].cycles[k]);
-						}
-					}
-				}
-				console.log(grades);
                 $scope.$apply(function() {
-                    $scope.grades = grades;
+					console.log(item.courses);
+                    $scope.grades = item.courses;
                 });
             });
         };
@@ -85,11 +74,8 @@ gradesApp.controller('GradesCtrl', ['$scope', '$location', '$rootScope',
                 });
             });
         };
-		$scope.getCycle = function(course_index, cycle_index) {
-			courseId = grades[course_index].courseId;
-			semesterId = grades[course_index].allCycles[cycle_index].semesterId;
-			cycleId = grades[course_index].allCycles[cycle_index].cycleId;
-			console.log("(" + courseId + ", " + semesterId + ", " + cycleId + ")");
+		$scope.getCycle = function(course, semester, cycle) {
+			console.log("(" + course + ", " + semester + ", " + cycle + ")");
 		};
     }
 ]);

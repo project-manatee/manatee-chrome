@@ -31,6 +31,21 @@ function RememberedGrades() {
 			var manaTEAMS = new ManaTEAMS(item.username, item.password);
 			manaTEAMS.login(function(selectInfo) {
 				manaTEAMS.getAllCourses(function(html, courses) {
+					for (var i = 0; i < courses.length; ++i) {
+						console.log(courses);
+						courses[i].allCycles = [];
+						courseId = courses[i].courseId;
+						for (var j = 0; j < courses[i].semesters.length; ++j) {
+							for (var k = 0; k < courses[i].semesters[j].cycles.length; ++k) {
+								courses[i].semesters[j].cycles[k].courseId = courseId;
+								courses[i].semesters[j].cycles[k].semesterId = j;
+								courses[i].semesters[j].cycles[k].cycleId = k;
+
+								// the following stores a copy of courses[i].semesters[j].cycles[k] and puts in allCycles array
+								courses[i].allCycles.push($.extend(true, {}, courses[i].semesters[j].cycles[k]));
+							}
+						}
+					}
 					chrome.storage.local.set({'courses': courses});
 					callback(courses);
 				});

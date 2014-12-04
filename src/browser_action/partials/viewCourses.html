@@ -12,8 +12,8 @@
     <tr ng-repeat="course in grades" ng-init="course_index = $index" >
         <td data-title="'Teacher'">{{course.teacher}}</td>
         <td data-title="'Class'">{{course.title}}</td>
-		<td ng-repeat="cycle in course.allCycles" ng-init="cycle_index = $index">
-			<a ng-click="getCycle(course_index, cycle_index)">{{cycle.average}}</a>
+		<td ng-repeat="cycle in course.allCycles">
+			<a ng-click="getCycle(cycle.courseId, cycle.semesterId, cycle.cycleId)">{{cycle.average || "NG"}}</a>
 		</td>
     </tr>
 </table>
