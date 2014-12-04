@@ -76,6 +76,12 @@ gradesApp.controller('GradesCtrl', ['$scope', '$location', '$rootScope',
         };
 		$scope.getCycle = function(course, semester, cycle) {
 			console.log("(" + course + ", " + semester + ", " + cycle + ")");
+			rememberedGrades.getCycleGrades(course, semester, cycle, function(cycle) {
+				console.log(cycle);
+                // $rootScope.$apply(function() {
+                //     $location.path('/loginPage');
+                // });
+			});
 		};
     }
 ]);

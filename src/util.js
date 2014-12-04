@@ -53,6 +53,21 @@ function RememberedGrades() {
 		});
 	};
 
+	this.getCycleGrades = function (course, semester, cycle, callback) {
+		chrome.storage.local.get(['username', 'password'], function (item) {
+			if (!('username' in item && 'password' in item)) {
+				return;
+			}
+			var manaTEAMS = new ManaTEAMS(item.username, item.password);
+			manaTEAMS.login(function(selectInfo) {
+				manaTEAMS.getAllCourses(function(html, courses) {
+					cycleGrades = manaTEAMS.getCycleClassGrades(couse, cycle, semester, html);
+					callback(cycleGrades);
+				});
+			});
+		});
+	};
+
 	this.getGrades = function (callback) {
 		chrome.storage.local.get('courses', function (item) {
 			if (! ('courses' in item)) {
