@@ -19,7 +19,7 @@ gradesApp.config(['$routeProvider',
             templateUrl: 'partials/viewCourses.html',
             controller: 'GradesCtrl'
         });
-        $routeProvider.when('/viewCycle', {
+        $routeProvider.when('/viewCycle/:courseid/:semester/:cycle', {
             templateUrl: 'partials/viewCycle.html',
             controller: 'CycleCtrl'
         });
@@ -62,7 +62,6 @@ gradesApp.controller('GradesCtrl', ['$scope', '$location', '$rootScope',
             rememberedGrades.updateGrades();
             chrome.storage.local.get(['courses'], function(item) {
                 $scope.$apply(function() {
-					console.log(item.courses);
                     $scope.grades = item.courses;
                 });
             });
@@ -75,21 +74,24 @@ gradesApp.controller('GradesCtrl', ['$scope', '$location', '$rootScope',
             });
         };
 		$scope.getCycle = function(course, semester, cycle) {
-			console.log("(" + course + ", " + semester + ", " + cycle + ")");
-			rememberedGrades.getCycleGrades(course, semester, cycle, function(cycle) {
-				console.log(cycle);
-                // $rootScope.$apply(function() {
-                //     $location.path('/loginPage');
-                // });
+			rememberedGrades.getCycleGrades(course, semester, cycle, function(cyclereturned) {
+                $rootScope.$apply(function() {
+                    $location.path('/viewCycle/' + course + '/' + semester + '/' + cycle);
+                });
 			});
 		};
     }
 ]);
 
-gradesApp.controller('CycleCtrl', ['$scope', '$location', '$rootScope', '$http',
-    function($scope, $location, $rootScope, $http) {
-        $http.get('exampleCycle.json').success(function(data) {
-            $scope.classGrade = data;
+gradesApp.controller('CycleCtrl', ['$scope', '$location', '$rootScope', '$routeParams',
+    function($scope, $location, $rootScope, $routeParams) {
+        var courseid = $routeParams.courseid;
+        var semester = $routeParams.semester;
+        var cycle = $routeParams.cycle;
+        chrome.storage.local.get(['cycleObj'], function(item) {
+            $scope.$apply(function() {
+                $scope.classGrade = item.cycleObj[courseid][semester][cycle];
+            });
         });
         $scope.viewCourses = function() {
             $location.path('/viewGrades');
