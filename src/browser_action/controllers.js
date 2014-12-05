@@ -53,10 +53,9 @@ gradesApp.controller('GradesCtrl', ['$scope', '$location', '$rootScope',
             });
         });
         $scope.getGrades = function() {
-            rememberedGrades.updateGrades();
-            chrome.storage.local.get(['courses'], function(item) {
+            rememberedGrades.updateGrades(function(courses) {
                 $scope.$apply(function() {
-                    $scope.grades = item.courses;
+                    $scope.grades = courses;
                 });
             });
         };
@@ -67,13 +66,13 @@ gradesApp.controller('GradesCtrl', ['$scope', '$location', '$rootScope',
                 });
             });
         };
-		$scope.getCycle = function(course, semester, cycle) {
-			rememberedGrades.getCycleGrades(course, semester, cycle, function(cyclereturned) {
+        $scope.getCycle = function(course, semester, cycle) {
+            rememberedGrades.getCycleGrades(course, semester, cycle, function(cyclereturned) {
                 $rootScope.$apply(function() {
                     $location.path('/viewCycle/' + course + '/' + semester + '/' + cycle);
                 });
-			});
-		};
+            });
+        };
     }
 ]);
 
