@@ -1,14 +1,5 @@
 var gradesApp = angular.module('gradesApp', ['ngRoute']);
 
-
-
-
-function checkLoggedIn(callback) {
-    chrome.storage.local.get(['username', 'password'],
-        function(item) {
-            callback(item.hasOwnProperty('username') && item.hasOwnProperty('password'));
-        });
-}
 gradesApp.config(['$routeProvider',
     function($routeProvider) {
         $routeProvider.when('/loginPage', {
@@ -28,7 +19,7 @@ gradesApp.config(['$routeProvider',
 
 gradesApp.controller('LoginCtrl', ['$scope', '$location', '$rootScope',
     function($scope, $location, $rootScope) {
-        checkLoggedIn(function(loggedIn) {
+        rememberedGrades.isLoggedIn(function(loggedIn) {
             if (loggedIn) {
                 $rootScope.$apply(function() {
                     $location.path('/viewGrades');
@@ -47,30 +38,25 @@ gradesApp.controller('LoginCtrl', ['$scope', '$location', '$rootScope',
 ]);
 gradesApp.controller('GradesCtrl', ['$scope', '$location', '$rootScope',
     function($scope, $location, $rootScope) {
-        chrome.storage.local.get(['courses'], function(item) {
-            $scope.$apply(function() {
-                $scope.grades = item.courses;
-            });
-        });
         $scope.getGrades = function() {
-            rememberedGrades.updateGrades(function(courses) {
+            rememberedGrades.getGrades(function(courses) {
                 $scope.$apply(function() {
                     $scope.grades = courses;
                 });
             });
         };
+		$scope.getGrades();
+
         $scope.logout = function() {
-            chrome.storage.local.clear(function() {
-                $rootScope.$apply(function() {
-                    $location.path('/loginPage');
-                });
-            });
+			rememberedGrades.logout(function () {
+				$rootScope.$apply(function() {
+					$location.path('/loginPage');
+				});
+			});
         };
         $scope.getCycle = function(course, semester, cycle) {
-            rememberedGrades.getCycleGrades(course, semester, cycle, function(cyclereturned) {
-                $rootScope.$apply(function() {
-                    $location.path('/viewCycle/' + course + '/' + semester + '/' + cycle);
-                });
+            $rootScope.$apply(function() {
+                $location.path('/viewCycle/' + course + '/' + semester + '/' + cycle);
             });
         };
     }
@@ -81,20 +67,24 @@ gradesApp.controller('CycleCtrl', ['$scope', '$location', '$rootScope', '$routeP
         var courseid = $routeParams.courseid;
         var semester = $routeParams.semester;
         var cycle = $routeParams.cycle;
-        chrome.storage.local.get(['cycleObj'], function(item) {
-            $scope.$apply(function() {
-                $scope.classGrade = item.cycleObj[courseid][semester][cycle];
-            });
-        });
+        $scope.getCycleGrades = function () {
+			rememberedGrades.getCycleGrades(course, semester, cycle, function(cyclereturned) {
+				$scope.$apply(function() {
+					$scope.classGrade = cyclereturned;
+				});
+			});
+		};
+		$scope.getCycleGrades();
+		
         $scope.viewCourses = function() {
             $location.path('/viewGrades');
         };
         $scope.logout = function() {
-            chrome.storage.local.clear(function() {
-                $rootScope.$apply(function() {
-                    $location.path('/loginPage');
-                });
-            });
+			rememberedGrades.logout(function () {
+				$rootScope.$apply(function() {
+					$location.path('/loginPage');
+				});
+			});
         };
     }
 ]);
