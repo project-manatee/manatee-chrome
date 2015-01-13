@@ -13,6 +13,5 @@ require(['sha1',
     'classes/Cycle',
     'ManaTEAMS'
 ], function() {
-    //then import util.js for beginning grades check
-	require(['./background.js']);
+	require(['./remembered.js', './background.js']);
 });

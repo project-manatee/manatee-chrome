@@ -1,5 +1,7 @@
 var gradesApp = angular.module('gradesApp', ['ngRoute']);
 
+rememberedGrades = chrome.extension.getBackgroundPage().rememberedGrades;
+
 gradesApp.config(['$routeProvider',
     function($routeProvider) {
         $routeProvider.when('/loginPage', {
@@ -31,6 +33,7 @@ gradesApp.controller('LoginCtrl', ['$scope', '$location', '$rootScope',
             var updatedUser = angular.copy(user);
             rememberedGrades.updateCredentials(updatedUser.username, updatedUser.password);
         };
+
         $scope.viewGrades = function() {
             $location.path('/viewGrades');
         };
