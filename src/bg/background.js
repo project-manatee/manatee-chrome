@@ -5,6 +5,15 @@
 // });
 
 rememberedGrades = new RememberedGrades();
+rememberedGrades.loginCache(function () {
+	console.log('successful');
+}, function (msg) {
+	console.log(msg);
+});
+
+chrome.storage.local.get(null, function (item) {
+	console.log(item.username + ', ' + item.password);
+});
 
 // TODO: this
 // function Clock(delay, callback, name) {

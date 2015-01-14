@@ -7,33 +7,41 @@ function RememberedGrades() {
 // TODO: consistent names for grades, courses, cycleObj, cycleClass, cycleClassGrades, etc.
 // TODO: way to refresh the fetch in case of failure
 
-RememberedGrades.prototype.login = function(successful, error) {
-	// TODO: what if already logged in?
+RememberedGrades.prototype.login = function (username, password, successful, error) {
+	this.manaTEAMS = new ManaTEAMS(username, password);
+	thisinstance = this;
+	this.manaTEAMS.login(function() {
+		thisinstance.manaTEAMS.getGradesPage(function (response, status) {
+			if (status === null) {
+				successful();
+			} else {
+				error('wrong credentials');
+			}
+		});
+	});
+};
+
+RememberedGrades.prototype.loginCache = function(successful, error) {
 	var thisinstance = this;
 	chrome.storage.local.get(['username', 'password'], function (item) {
 		if ('username' in item && 'password' in item) {
-			thisinstance.manaTEAMS = new ManaTEAMS(item.username, item.password);
-			successful();
+			thisinstance.login(item.username, item.password, successful, error);
 		} else {
-			error({message: 'no credentials'});
+			error('no cached credentials');
 		}
 	});
 };
 
-RememberedGrades.prototype.updateCredentials = function(username, password, callback) {
-	thisinstance = this;
+RememberedGrades.prototype.updateCache = function(username, password, successful, error) {
+	this.login(username, password, successful, error);
 	chrome.storage.local.set({
 		'password': password,
 		'username': username
-	}, function () {
-		thisinstance.manaTEAMS = new ManaTEAMS(username, password);
-		callback();
 	});
-	// TODO: what do if login fail
 };
 
 RememberedGrades.prototype.updateGrades = function(callback) {
-	// what if manateams fail
+	// TODO: what if manateams fail
 	var thisinstance = this;
 	this.manaTEAMS.login(function(selectInfo) {
 		thisinstance.manaTEAMS.getAllCourses(function(averagesHtml, courses) {

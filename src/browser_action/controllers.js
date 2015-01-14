@@ -22,8 +22,10 @@ gradesApp.config(['$routeProvider',
 gradesApp.controller('LoginCtrl', ['$scope', '$location', '$rootScope',
     function($scope, $location, $rootScope) {
         rememberedGrades.isLoggedIn(function(loggedIn) {
+			console.log(loggedIn);
             if (loggedIn) {
                 $rootScope.$apply(function() {
+					// TODO: make this work
                     $location.path('/viewGrades');
                 });
             }
@@ -31,14 +33,17 @@ gradesApp.controller('LoginCtrl', ['$scope', '$location', '$rootScope',
 
         $scope.updateCredentials = function(user) {
             var updatedUser = angular.copy(user);
-            rememberedGrades.updateCredentials(updatedUser.username, updatedUser.password);
-        };
-
-        $scope.viewGrades = function() {
-            $location.path('/viewGrades');
+            rememberedGrades.updateCache(updatedUser.username, updatedUser.password, function () {
+				// Successful
+				console.log('successful');
+			}, function (msg) {
+				// Error
+				console.log(msg);
+			});
         };
     }
 ]);
+
 gradesApp.controller('GradesCtrl', ['$scope', '$location', '$rootScope',
     function($scope, $location, $rootScope) {
         $scope.getGrades = function() {
