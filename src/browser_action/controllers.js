@@ -24,10 +24,16 @@ gradesApp.controller('LoginCtrl', ['$scope', '$location', '$rootScope',
         rememberedGrades.isLoggedIn(function(loggedIn) {
 			console.log(loggedIn);
             if (loggedIn) {
-                $rootScope.$apply(function() {
-					// TODO: make this work
-                    $location.path('/viewGrades');
-                });
+ 				console.log('This should redirect');
+				// Ehsan start
+				if($scope.$$phase) {
+					window.location = '/viewGrades';
+				}
+				else {
+					$location.path('/viewGrades');
+					$scope.$apply();
+				}
+				// Ehsan end
             }
         });
 
