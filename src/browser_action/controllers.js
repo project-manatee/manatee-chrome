@@ -21,21 +21,17 @@ gradesApp.config(['$routeProvider',
 
 gradesApp.controller('LoginCtrl', ['$scope', '$location', '$rootScope',
     function($scope, $location, $rootScope) {
-        rememberedGrades.isLoggedIn(function(loggedIn) {
-			console.log(loggedIn);
-            if (loggedIn) {
- 				console.log('This should redirect');
-				// Ehsan start
-				if($scope.$$phase) {
-					window.location = '/viewGrades';
-				}
-				else {
-					$location.path('/viewGrades');
-					$scope.$apply();
-				}
-				// Ehsan end
-            }
-        });
+        if (loggedIn) {
+ 			console.log('This should redirect');
+			if($scope.$$phase) {
+				console.log('bal');
+				window.location = '#/viewGrades';
+			} else {
+				console.log('lab');
+				$location.path('#/viewGrades');
+				$scope.$apply();
+			}
+        }
 
         $scope.updateCredentials = function(user) {
             var updatedUser = angular.copy(user);

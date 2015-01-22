@@ -1,6 +1,7 @@
 
 function RememberedGrades() {
 	this.manaTEAMS = new ManaTEAMS('', '');
+	this.loggedin = false;
 }
 
 // TODO: how do I know if they are in progress of getting new grades?
@@ -13,8 +14,10 @@ RememberedGrades.prototype.login = function (username, password, successful, err
 	this.manaTEAMS.login(function() {
 		thisinstance.manaTEAMS.getGradesPage(function (response, status) {
 			if (status === null) {
+				thisinstance.loggedin = true;
 				successful();
 			} else {
+				thisinstance.loggedin = false;
 				error('wrong credentials');
 			}
 		});
@@ -143,11 +146,4 @@ RememberedGrades.prototype.logout = function (callback) {
 		updateCredentials('', '');
 		callback();
 	});
-};
-
-RememberedGrades.prototype.isLoggedIn = function (callback) {
-	console.log('awetoih');
-	console.log(this.manaTEAMS.isLoggedIn);
-	callback(this.manaTEAMS.isLoggedIn);
-	// TODO: what if login fails
 };
