@@ -1,5 +1,20 @@
 var gradesApp = angular.module('gradesApp', ['ngRoute']);
 
+var scopeService = angular.module('main', []).service('scopeService', function() {
+     return {
+         safeApply: function ($scope, fn) {
+             var phase = $scope.$root.$$phase;
+             if (phase == '$apply' || phase == '$digest') {
+                 if (fn && typeof fn === 'function') {
+                     fn();
+                 }
+             } else {
+                 $scope.$apply(fn);
+             }
+         },
+     };
+});
+
 rememberedGrades = chrome.extension.getBackgroundPage().rememberedGrades;
 
 gradesApp.config(['$routeProvider',
@@ -21,27 +36,22 @@ gradesApp.config(['$routeProvider',
 
 gradesApp.controller('LoginCtrl', ['$scope', '$location', '$rootScope',
     function($scope, $location, $rootScope) {
-        console.log(rememberedGrades.loggedin);
-        if (rememberedGrades.loggedin) {
-            console.log('This should redirect');
-            if ($scope.$$phase) {
-                console.log('bal');
-                window.location = '#/viewGrades';
-            } else {
-                console.log('lab');
-                $location.path('#/viewGrades');
-                $scope.$apply();
-            }
-        }
+		redirect = function() {
+			document.getElementById('login').click();
+		};
+		rememberedGrades.loggedInCache(function(loggedin) {
+			if (loggedin) {
+				redirect();
+			}
+		});
 
         $scope.updateCredentials = function(user) {
             var updatedUser = angular.copy(user);
             rememberedGrades.updateCache(updatedUser.username, updatedUser.password, function() {
-                // Successful
-                console.log('successful');
+				redirect();
+				// Logged in successfully from user input
             }, function(msg) {
-                // Error
-                console.log(msg);
+                // Wrong username password
             });
         };
     }
@@ -50,9 +60,10 @@ gradesApp.controller('LoginCtrl', ['$scope', '$location', '$rootScope',
 gradesApp.controller('GradesCtrl', ['$scope', '$location', '$rootScope',
     function($scope, $location, $rootScope) {
         $scope.getGrades = function() {
-            rememberedGrades.getGrades(function(courses) {
+            rememberedGrades.getGrades(function(grades, updated) {
                 $scope.$apply(function() {
-                    $scope.grades = courses;
+                    $scope.grades = grades;
+					$scope.updated = updated;
                 });
             });
         };
@@ -66,22 +77,28 @@ gradesApp.controller('GradesCtrl', ['$scope', '$location', '$rootScope',
             });
         };
         $scope.getCycle = function(course, semester, cycle) {
-            $rootScope.$apply(function() {
-                $location.path('/viewCycle/' + course + '/' + semester + '/' + cycle);
-            });
-        };
+			url = '#/viewCycle' + course + '/' + semester + '/' + cycle;
+			console.log(url);
+			//window.location = url;
+			//$location.url(url);
+			$location.path(url);
+		};
     }
 ]);
 
 gradesApp.controller('CycleCtrl', ['$scope', '$location', '$rootScope', '$routeParams',
     function($scope, $location, $rootScope, $routeParams) {
         var courseid = $routeParams.courseid;
-        var semester = $routeParams.semester;
-        var cycle = $routeParams.cycle;
+        var semesterid = $routeParams.semester;
+        var cycleid = $routeParams.cycle;
         $scope.getCycleGrades = function() {
-            rememberedGrades.getCycleGrades(course, semester, cycle, function(cyclereturned) {
+			console.log('wl');
+            rememberedGrades.getCycleGrades(courseid, semesterid, cycleid, function(cycleGrades, updated) {
+				console.log('hau');
                 $scope.$apply(function() {
+					console.log(cyclereturned);
                     $scope.classGrade = cyclereturned;
+					$scope.updated = updated;
                 });
             });
         };

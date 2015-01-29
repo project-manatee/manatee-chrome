@@ -1,6 +1,6 @@
 <div class="courseHeader">
     <p class="courseTitle" data-title="'Title'">{{classGrade.title}}</p>
-    <p class="courseCycle" data-title="'Cycle'">CYCLE {{classGrade.semesterIndex*3 + classGrade.cycleIndex}}</p>
+    <p class="courseCycle" data-title="'Cycle'">Cycle {{classGrade.semesterIndex*3 + classGrade.cycleIndex}}</p>
 </div>
 <div class="category" ng-repeat="category in classGrade.categories">
     <div class="categoryInner">
@@ -32,5 +32,6 @@
     </div>
 </div>
 <div>Time: {{classGrade.time}}</div>
+<div>Updated: {{updated}}</div>
 <button ng-click="viewCourses()">view course grades</button>
 <button ng-click="logout()">logout</button>

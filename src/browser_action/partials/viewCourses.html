@@ -13,10 +13,12 @@
         <td data-title="'Teacher'">{{course.teacher}}</td>
         <td data-title="'Class'">{{course.title}}</td>
 		<td ng-repeat="cycle in course.allCycles">
-			<a ng-click="getCycle(cycle.courseId, cycle.semesterId, cycle.cycleId)">{{cycle.average || "NG"}}</a>
+			<!-- <a ng-click="getCycle(cycle.courseId, cycle.semesterId, cycle.cycleId)">{{cycle.average || "NG"}}</a> -->
+			<a href="#/viewCycle/cycle.courseId/cycle.semesterId/cycle.cycleId">{{cycle.average || "NG"}}</a>
+
 		</td>
     </tr>
 </table>
 <div>Time: {{grades[0].time}}</div>
-<!-- <button ng-click="getGrades()">get Course Grades</button> -->
+<div>Updated {{updated}}</div>
 <button ng-click="logout()">logout</button>

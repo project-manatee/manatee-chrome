@@ -1,43 +1,51 @@
 function RememberedGrades() {
     this.manaTEAMS = new ManaTEAMS('', '');
-    this.loggedin = false;
 }
 
 // TODO: how do I know if they are in progress of getting new grades?
 // TODO: consistent names for grades, courses, cycleObj, cycleClass, cycleClassGrades, etc.
 // TODO: way to refresh the fetch in case of failure
 
-RememberedGrades.prototype.login = function(username, password, successful, error) {
+RememberedGrades.prototype.login = function(username, password, success, error) {
     this.manaTEAMS = new ManaTEAMS(username, password);
     thisinstance = this;
-    this.manaTEAMS.login(function(data) {
-    	if (data === 'success') {
-    		successful();
-    	} else {
-    		console.log('it handled');
-    		error(data);
-    		//error('error');
-    	}
-    });
+    this.manaTEAMS.login(success, error);
 };
 
-RememberedGrades.prototype.loginCache = function(successful, error) {
+RememberedGrades.prototype.loginCache = function(success, error) {
     var thisinstance = this;
     chrome.storage.local.get(['username', 'password'], function(item) {
         if ('username' in item && 'password' in item) {
-            thisinstance.login(item.username, item.password, successful, error);
+            thisinstance.login(item.username, item.password, function() {
+				chrome.storage.local.set({'loggedin': true});
+				success();
+			}, function(data) {
+				chrome.storage.local.set({'loggedin': false});
+				error(data);
+			});
         } else {
+			chrome.storage.local.set({'loggedin': false});
             error('no cached credentials');
         }
     });
 };
 
-RememberedGrades.prototype.updateCache = function(username, password, successful, error) {
-    this.login(username, password, successful, error);
+RememberedGrades.prototype.updateCache = function(username, password, success, error) {
     chrome.storage.local.set({
         'password': password,
         'username': username
     });
+    this.login(username, password, success, error);
+};
+
+RememberedGrades.prototype.loggedInCache = function(callback) {
+	chrome.storage.local.get('loggedin', function(item) {
+		if ('loggedin' in item) {
+			callback(item.loggedin);
+		} else {
+			callback(false);
+		}
+	});
 };
 
 RememberedGrades.prototype.updateGrades = function(callback) {
@@ -131,11 +139,11 @@ RememberedGrades.prototype.getCycleGrades = function(course, semester, cycle, ca
     chrome.storage.local.get(['cycleObj'], function(item) {
         cycleGrades = item.cycleObj[course][semester][cycle];
         if (cycleGrades) {
-            callback(cycleGrades); // callback immediately with old data, if possible
+            callback(cycleGrades, false); // callback immediately with old data, if possible
         }
     });
     this.updateCycleGrades(course, semester, cycle, function(cycleGrades) {
-        callback(cycleGrades);
+        callback(cycleGrades, true);
     }); // callback later with new data
 };
 
