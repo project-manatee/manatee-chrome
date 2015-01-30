@@ -14,8 +14,7 @@
         <td data-title="'Class'">{{course.title}}</td>
 		<td ng-repeat="cycle in course.allCycles">
 			<!-- <a ng-click="getCycle(cycle.courseId, cycle.semesterId, cycle.cycleId)">{{cycle.average || "NG"}}</a> -->
-			<a href="#/viewCycle/cycle.courseId/cycle.semesterId/cycle.cycleId">{{cycle.average || "NG"}}</a>
-
+			<a href="#/viewCycle/{{cycle.courseId}}/{{cycle.semesterId}}/{{cycle.cycleId}}">{{cycle.average || "NG"}}</a>
 		</td>
     </tr>
 </table>

@@ -5,11 +5,7 @@
 // });
 
 rememberedGrades = new RememberedGrades();
-rememberedGrades.loginCache(function () {
-	console.log('successful');
-}, function (msg) {
-	console.log(msg);
-});
+rememberedGrades.loginCache(function() { }, function(msg) { });
 
 // TODO: this
 // function Clock(delay, callback, name) {

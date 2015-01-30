@@ -100,13 +100,18 @@ RememberedGrades.prototype.updateCycleGrades = function(course, semester, cycle,
     // TODO: used cached averages html
     this.manaTEAMS.login(function(selectInfo) {
         thisinstance.manaTEAMS.getAllCourses(function(html, courses) {
+			console.log('12');
             thisinstance.manaTEAMS.getCycleClassGrades(course, cycle, semester, html, function(cycleGrades) {
+				console.log(cycleGrades);
+				console.log('13');
                 chrome.storage.local.get(['cycleObj'], function(item) {
+					console.log('14');
+					time = (new Date()).toTimeString();
+					$.extend(true, {'time': time}, cycleGrades, cycleGrades);
                     var newCycleObj = {};
                     newCycleObj[course] = {};
                     newCycleObj[course][semester] = {};
                     newCycleObj[course][semester][cycle] = cycleGrades;
-                    newCycleObj[course][semester][cycle].time = (new Date()).toTimeString();
                     $.extend(true, newCycleObj, item.cycleObj, newCycleObj);
                     // TODO: when RememberedGrades.updateCycleGrades is called from
                     //       loop (as in RememberedGrades.updateAll), do this once at the
@@ -114,6 +119,8 @@ RememberedGrades.prototype.updateCycleGrades = function(course, semester, cycle,
                     chrome.storage.local.set({
                         'cycleObj': newCycleObj
                     });
+					console.log(newCycleObj);
+					console.log(cycleGrades);
                     // TODO: make this add to courses.allcycles instead of cycleObj
                     callback(cycleGrades);
                 });
@@ -136,13 +143,20 @@ RememberedGrades.prototype.getGrades = function(callback) {
 };
 
 RememberedGrades.prototype.getCycleGrades = function(course, semester, cycle, callback) {
+	console.log('1');
     chrome.storage.local.get(['cycleObj'], function(item) {
-        cycleGrades = item.cycleObj[course][semester][cycle];
-        if (cycleGrades) {
-            callback(cycleGrades, false); // callback immediately with old data, if possible
-        }
+		if ('cycleObj' in item) {
+			cycleGrades = item.cycleObj[course][semester][cycle];
+			if (cycleGrades) {
+				console.log('3a');
+				callback(cycleGrades, false); // callback immediately with old data, if possible
+			}
+		}
     });
+	console.log('4');
     this.updateCycleGrades(course, semester, cycle, function(cycleGrades) {
+		console.log('5');
+		console.log(cycleGrades);
         callback(cycleGrades, true);
     }); // callback later with new data
 };

@@ -1,4 +1,15 @@
+// faster
+// better callbacks
+// prettier
+
 var gradesApp = angular.module('gradesApp', ['ngRoute']);
+gradesApp.config([
+    '$compileProvider',
+    function($compileProvider) {   
+        $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension):/);
+        // Angular before v1.2 uses $compileProvider.urlSanitizationWhitelist(...)
+    }
+]);
 
 var scopeService = angular.module('main', []).service('scopeService', function() {
      return {
@@ -78,10 +89,9 @@ gradesApp.controller('GradesCtrl', ['$scope', '$location', '$rootScope',
         };
         $scope.getCycle = function(course, semester, cycle) {
 			url = '#/viewCycle' + course + '/' + semester + '/' + cycle;
-			console.log(url);
 			//window.location = url;
 			//$location.url(url);
-			$location.path(url);
+			//$location.path(url);
 		};
     }
 ]);
@@ -91,13 +101,17 @@ gradesApp.controller('CycleCtrl', ['$scope', '$location', '$rootScope', '$routeP
         var courseid = $routeParams.courseid;
         var semesterid = $routeParams.semester;
         var cycleid = $routeParams.cycle;
+		console.log(courseid);
+		console.log(semesterid);
+		console.log(cycleid);
         $scope.getCycleGrades = function() {
 			console.log('wl');
             rememberedGrades.getCycleGrades(courseid, semesterid, cycleid, function(cycleGrades, updated) {
+				// TODO: standardaize variable names cycleGrades classGrade
 				console.log('hau');
                 $scope.$apply(function() {
-					console.log(cyclereturned);
-                    $scope.classGrade = cyclereturned;
+					console.log(cycleGrades);
+                    $scope.classGrade = cycleGrades;
 					$scope.updated = updated;
                 });
             });
