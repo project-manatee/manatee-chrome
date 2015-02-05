@@ -55,13 +55,10 @@ RememberedGrades.prototype.updateGrades = function(callback) {
         thisinstance.manaTEAMS.getAllCourses(function(averagesHtml, courses) {
             // TODO: delete unused/duplicated properties
             for (var i = 0; i < courses.length; ++i) {
-                // console.log('course ' + (i + 1) + ' of ' + courses.length);
                 courses[i].allCycles = [];
                 courseId = courses[i].courseId;
                 for (var j = 0; j < courses[i].semesters.length; ++j) {
-                    // console.log('semester ' + (j + 1) + ' of ' + courses[i].semesters.length);
                     for (var k = 0; k < courses[i].semesters[j].cycles.length; ++k) {
-                        // console.log('cycle ' + (k + 1) + ' of ' + courses[i].semesters[j].cycles.length);
                         courses[i].semesters[j].cycles[k].courseId = courseId;
                         courses[i].semesters[j].cycles[k].semesterId = j;
                         courses[i].semesters[j].cycles[k].cycleId = k;
@@ -100,12 +97,8 @@ RememberedGrades.prototype.updateCycleGrades = function(course, semester, cycle,
     // TODO: used cached averages html
     this.manaTEAMS.login(function(selectInfo) {
         thisinstance.manaTEAMS.getAllCourses(function(html, courses) {
-			console.log('12');
             thisinstance.manaTEAMS.getCycleClassGrades(course, cycle, semester, html, function(cycleGrades) {
-				console.log(cycleGrades);
-				console.log('13');
                 chrome.storage.local.get(['cycleObj'], function(item) {
-					console.log('14');
 					time = (new Date()).toTimeString();
 					$.extend(true, {'time': time}, cycleGrades, cycleGrades);
                     var newCycleObj = {};
@@ -119,8 +112,6 @@ RememberedGrades.prototype.updateCycleGrades = function(course, semester, cycle,
                     chrome.storage.local.set({
                         'cycleObj': newCycleObj
                     });
-					console.log(newCycleObj);
-					console.log(cycleGrades);
                     // TODO: make this add to courses.allcycles instead of cycleObj
                     callback(cycleGrades);
                 });
@@ -143,20 +134,16 @@ RememberedGrades.prototype.getGrades = function(callback) {
 };
 
 RememberedGrades.prototype.getCycleGrades = function(course, semester, cycle, callback) {
-	console.log('1');
+	console.log(course + ' ' + semester + ' ' + cycle);
     chrome.storage.local.get(['cycleObj'], function(item) {
 		if ('cycleObj' in item) {
 			cycleGrades = item.cycleObj[course][semester][cycle];
 			if (cycleGrades) {
-				console.log('3a');
 				callback(cycleGrades, false); // callback immediately with old data, if possible
 			}
 		}
     });
-	console.log('4');
     this.updateCycleGrades(course, semester, cycle, function(cycleGrades) {
-		console.log('5');
-		console.log(cycleGrades);
         callback(cycleGrades, true);
     }); // callback later with new data
 };
