@@ -101,14 +101,10 @@ gradesApp.controller('CycleCtrl', ['$scope', '$location', '$rootScope', '$routeP
         var courseid = $routeParams.courseid;
         var semesterid = $routeParams.semester;
         var cycleid = $routeParams.cycle;
-		console.log(courseid);
-		console.log(semesterid);
-		console.log(cycleid);
+		console.log(courseid, semesterid, cycleid);
         $scope.getCycleGrades = function() {
-			console.log('wl');
             rememberedGrades.getCycleGrades(courseid, semesterid, cycleid, function(cycleGrades, updated) {
 				// TODO: standardaize variable names cycleGrades classGrade
-				console.log('hau');
                 $scope.$apply(function() {
 					console.log(cycleGrades);
                     $scope.classGrade = cycleGrades;

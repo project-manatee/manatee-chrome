@@ -59,6 +59,7 @@ RememberedGrades.prototype.updateGrades = function(callback) {
                 courseId = courses[i].courseId;
                 for (var j = 0; j < courses[i].semesters.length; ++j) {
                     for (var k = 0; k < courses[i].semesters[j].cycles.length; ++k) {
+						//console.log("3:", courseId, j, k);
                         courses[i].semesters[j].cycles[k].courseId = courseId;
                         courses[i].semesters[j].cycles[k].semesterId = j;
                         courses[i].semesters[j].cycles[k].cycleId = k;
@@ -68,6 +69,8 @@ RememberedGrades.prototype.updateGrades = function(callback) {
                     }
                 }
             }
+			gpa = totalGPA(courses, false);
+			courses[0].gpa = gpa;
             chrome.storage.local.set({
                 'averagesHtml': averagesHtml,
                 'courses': courses
@@ -97,7 +100,12 @@ RememberedGrades.prototype.updateCycleGrades = function(course, semester, cycle,
     // TODO: used cached averages html
     this.manaTEAMS.login(function(selectInfo) {
         thisinstance.manaTEAMS.getAllCourses(function(html, courses) {
+			console.log("This");
+			cycle = (parseInt(cycle) + 3 * parseInt(semester)) + "";
+			semester = 0;
+			console.log(course, semester, cycle);
             thisinstance.manaTEAMS.getCycleClassGrades(course, cycle, semester, html, function(cycleGrades) {
+				console.log(cycleGrades);
                 chrome.storage.local.get(['cycleObj'], function(item) {
 					time = (new Date()).toTimeString();
 					$.extend(true, {'time': time}, cycleGrades, cycleGrades);
@@ -134,9 +142,9 @@ RememberedGrades.prototype.getGrades = function(callback) {
 };
 
 RememberedGrades.prototype.getCycleGrades = function(course, semester, cycle, callback) {
-	console.log(course + ' ' + semester + ' ' + cycle);
+	console.log("1:", course, semester, cycle);
     chrome.storage.local.get(['cycleObj'], function(item) {
-		if ('cycleObj' in item) {
+		if ('cycleObj' in item && course in item.cycleObj && semester in item.cycleObj[course] && cycle in item.cycleObj[course][semester]) {
 			cycleGrades = item.cycleObj[course][semester][cycle];
 			if (cycleGrades) {
 				callback(cycleGrades, false); // callback immediately with old data, if possible

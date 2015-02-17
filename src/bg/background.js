@@ -5,6 +5,7 @@
 // });
 
 rememberedGrades = new RememberedGrades();
+console.log(rememberedGrades);
 //rememberedGrades.loginCache(function() { console.log('success'); }, function(msg) { console.log(msg); });
 rememberedGrades.loginCache(function() { }, function(msg) { });
 
