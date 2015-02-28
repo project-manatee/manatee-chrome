@@ -1,6 +1,25 @@
+<div class="actionbar short">
+    <h1>Login to manaTEAMS</h1>
+</div>
 <form novalidate class="credentialform">
-    Username: <input ng-model="user.username" type="text" id="username">
-    Password: <input ng-model="user.password" type="password" id="password">
-    <button ng-click="updateCredentials(user)">Login</button>
+    <div class="group">
+        <input ng-model="user.username" type="text" id="username">
+        <span class="highlight"></span>
+        <span class="bar"></span>
+        <label>Username</label>
+    </div>
+    <div class="group">
+        <input ng-model="user.password" type="password" id="password">
+        <span class="highlight"></span>
+        <span class="bar"></span>
+        <label>Password</label>
+    </div>
+    <div class="group">
+        <input ng-model="user.studentid" type="text" pattern="\d*" id="studentid">
+        <span class="highlight"></span>
+        <span class="bar"></span>
+        <label>Student ID</label>
+    </div>
+    <button class="loginButton" ng-click="updateCredentials(user)">Login</button>
 </form>
 <a href="#/viewGrades" id="login" style="display: none;">Don't click this</a>

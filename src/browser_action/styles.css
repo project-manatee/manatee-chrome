@@ -105,6 +105,9 @@ a.grade:hover {
 	background-color: #673ab7;
 	padding: 12px;
 }
+.short {
+	min-width: 275px;
+}
 .actionbar h1, h3 {
 	display: inline;
 	color: white;
@@ -115,9 +118,8 @@ a.grade:hover {
 .actionbar h3 {
 	padding: 12px;
 }
-.actionbarButton {
-	float: right;
-  	vertical-align: top;
+
+button {
 	padding: 8px;
 	color:white;
 	text-align: center;
@@ -125,4 +127,114 @@ a.grade:hover {
 	background: #512da8;
 	border: 0;
 	cursor: pointer;
+}
+
+.loginButton {
+	padding: 12px;
+	font-size: 14px;
+	margin: 24px 0px 12px 0px;
+	float: right;
+}
+
+.actionbarButton {
+	float: right;
+  	vertical-align: top;
+}
+.credentialform {
+	padding: 4px 4px 4px 24px;
+	margin: 4px;
+}
+
+
+/* form starting stylings ------------------------------- */
+.group 			  { 
+  position:relative; 
+  margin-top:30px;
+}
+input 				{
+  font-size:14px;
+  padding:8px 8px 8px 8px;
+  display:block;
+  width:200px;
+  border:none;
+  border-bottom:1px solid #757575;
+}
+input:focus 		{ outline:none; }
+
+/* LABEL ======================================= */
+label 				 {
+  color:#999; 
+  font-size:14px;
+  font-weight:normal;
+  position:absolute;
+  pointer-events:none;
+  left:5px;
+  top:10px;
+  transition:0.2s ease all; 
+  -moz-transition:0.2s ease all; 
+  -webkit-transition:0.2s ease all;
+}
+
+/* active state */
+input:focus ~ label, input:valid ~ label 		{
+  top:-20px;
+  font-size:14px;
+  color:#5264AE;
+}
+
+/* BOTTOM BARS ================================= */
+.bar 	{ position:relative; display:block; width:216px; }
+.bar:before, .bar:after 	{
+  content:'';
+  height:2px; 
+  width:0;
+  bottom:1px; 
+  position:absolute;
+  background:#5264AE; 
+  transition:0.2s ease all; 
+  -moz-transition:0.2s ease all; 
+  -webkit-transition:0.2s ease all;
+}
+.bar:before {
+  left:50%;
+}
+.bar:after {
+  right:50%; 
+}
+
+/* active state */
+input:focus ~ .bar:before, input:focus ~ .bar:after {
+  width:50%;
+}
+
+/* HIGHLIGHTER ================================== */
+.highlight {
+  position:absolute;
+  height:60%; 
+  width:100px; 
+  top:25%; 
+  left:0;
+  pointer-events:none;
+  opacity:0.5;
+}
+
+/* active state */
+input:focus ~ .highlight {
+  -webkit-animation:inputHighlighter 0.3s ease;
+  -moz-animation:inputHighlighter 0.3s ease;
+  animation:inputHighlighter 0.3s ease;
+}
+
+/* ANIMATIONS ================ */
+@-webkit-keyframes inputHighlighter {
+	from { background:#5264AE; }
+  to 	{ width:0; background:transparent; }
+}
+@-moz-keyframes inputHighlighter {
+	from { background:#5264AE; }
+  to 	{ width:0; background:transparent; }
+}
+@keyframes inputHighlighter {
+	from { background:#5264AE; }
+  to 	{ width:0; background:transparent; }
 }
