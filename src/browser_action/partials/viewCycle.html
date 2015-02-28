@@ -1,6 +1,7 @@
 <div class="actionbar">
-    <h1 data-title="'Title'">{{classGrade.title}}</p>
-    <h3 data-title="'Cycle'">Cycle {{classGrade.semesterIndex*3 + classGrade.cycleIndex + 1}}</p>
+    <h1 data-title="'Title'">{{classGrade.title}}</h1>
+    <h1 data-title="'Cycle'">Cycle {{classGrade.semesterIndex*3 + classGrade.cycleIndex + 1}}</h1>
+    <button class="actionbarButton" ng-click="viewCourses()">Go back</button>
 </div>
 <div class="category" ng-repeat="category in classGrade.categories">
     <div class="categoryInner">
@@ -8,7 +9,6 @@
             <p class="categoryTitle" data-title="'Title'">{{category.title}}</p>
             <p class="categoryWeight" data-title="'Weight'">{{category.weight}}%</p>
         </div>
-        <p class="categoryAverage" data-title="'Average'">Average: {{category.average}}</p>
         <table ng-table>
             <tr>
                 <td class="title">Assignment</td>
@@ -23,9 +23,6 @@
                 <td class="assignmentnumber" data-title="'weight'">{{assignment.weight}}</td>
             </tr>
         </table>
+        <p class="categoryAverage" data-title="'Average'">Average: {{category.average}}</p>
     </div>
 </div>
-<div>Time: {{classGrade.time}}</div>
-<div>Updated: {{updated}}</div>
-<button ng-click="viewCourses()">view course grades</button>
-<button ng-click="logout()">logout</button>
