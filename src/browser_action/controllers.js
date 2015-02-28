@@ -11,6 +11,7 @@ gradesApp.config([
     }
 ]);
 
+
 var scopeService = angular.module('main', []).service('scopeService', function() {
      return {
          safeApply: function ($scope, fn) {
