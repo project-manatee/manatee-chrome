@@ -1,21 +1,35 @@
 <table ng-table>
     <tr>
-        <td class="title">Teacher</td>
-        <td class="title">Title</td>
+        <td class="title">Course</td>
         <td class="title">Cycle 1</td>
         <td class="title">Cycle 2</td>
         <td class="title">Cycle 3</td>
+        <td class="title">Exam 1</td>
+        <td class="title">Semester 1</td>
         <td class="title">Cycle 4</td>
         <td class="title">Cycle 5</td>
         <td class="title">Cycle 6</td>
+        <td class="title">Exam 2</td>
+        <td class="title">Semester 2</td>
     </tr>
     <tr ng-repeat="course in grades" ng-init="course_index = $index" >
-        <td data-title="'Teacher'">{{course.teacher}}</td>
         <td data-title="'Class'">{{course.title}}</td>
-		<td ng-repeat="cycle in course.allCycles">
+
+        <td ng-repeat="cycle in course.semesters[0].cycles">
+            <a href="#/viewCycle/{{cycle.courseId}}/{{cycle.semesterId}}/{{cycle.cycleId}}">{{cycle.average || "NG"}}</a>
+        </td>
+
+        <td>{{course.semesters[0].examGrade}}</td>
+        <td>{{course.semesters[0].average}}</td>
+
+
+		<td ng-repeat="cycle in course.semesters[1].cycles">
 			<!-- <a ng-click="getCycle(cycle.courseId, cycle.semesterId, cycle.cycleId)">{{cycle.average || "NG"}}</a> -->
 			<a href="#/viewCycle/{{cycle.courseId}}/{{cycle.semesterId}}/{{cycle.cycleId}}">{{cycle.average || "NG"}}</a>
 		</td>
+
+        <td>{{course.semesters[1].examGrade}}</td>
+        <td>{{course.semesters[1].average}}</td>
     </tr>
 </table>
 <div>{{grades[0].gpa}}</div>
