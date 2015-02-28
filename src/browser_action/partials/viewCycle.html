@@ -1,6 +1,6 @@
-<div class="courseHeader">
-    <p class="courseTitle" data-title="'Title'">{{classGrade.title}}</p>
-    <p class="courseCycle" data-title="'Cycle'">Cycle {{classGrade.semesterIndex*3 + classGrade.cycleIndex + 1}}</p>
+<div class="actionbar">
+    <h1 data-title="'Title'">{{classGrade.title}}</p>
+    <h3 data-title="'Cycle'">Cycle {{classGrade.semesterIndex*3 + classGrade.cycleIndex + 1}}</p>
 </div>
 <div class="category" ng-repeat="category in classGrade.categories">
     <div class="categoryInner">
@@ -12,21 +12,15 @@
         <table ng-table>
             <tr>
                 <td class="title">Assignment</td>
-                <td class="title">Points Earned</td>
-                <td class="title">Points Possible</td>
-                <td class="title">Assigned</td>
-                <td class="title">Due</td>
+                <td class="title">Pts Earned</td>
+                <td class="title">Pts Possible</td>
                 <td class="title">Weight</td>
-                <td class="title">Note</td>
             </tr>
             <tr ng-repeat="assignment in category.assignments">
-                <td data-title="'title'">{{assignment.title}}</td>
-                <td data-title="'points earned'">{{assignment.ptsEarned}}</td>
-                <td data-title="'points possible'">{{assignment.ptsPossible}}</td>
-                <td data-title="'Assigned'">{{assignment.dateAssigned}}</td>
-                <td data-title="'Due'">{{assignment.dateDue}}</td>
-                <td data-title="'weight'">{{assignment.weight}}</td>
-                <td data-title="'note'">{{assignment.note}}</td>
+                <td class="assignmenttitle" data-title="'title'">{{assignment.title}}</td>
+                <td class="assignmentnumber" data-title="'points earned'">{{assignment.ptsEarned}}</td>
+                <td class="assignmentnumber" data-title="'points possible'">{{assignment.ptsPossible}}</td>
+                <td class="assignmentnumber" data-title="'weight'">{{assignment.weight}}</td>
             </tr>
         </table>
     </div>

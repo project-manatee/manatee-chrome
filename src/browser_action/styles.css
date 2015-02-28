@@ -17,25 +17,6 @@ body {
 	height: 50px;
 }
 
-.courseTitle, .courseCycle {
-	font-size: 40px;
-	font-weight: 300;
-	margin: 0px;
-	display: inline-block;
-}
-
-.courseTitle {
-	float: left;
-}
-
-.courseCycle {
-	float: right;
-}
-
-.categoryHeader {
-	height: 50px;
-}
-
 .categoryAverage {
 	font-size: 18px;
 	padding: 0px 0px 0px 0px;
@@ -59,13 +40,13 @@ body {
 }
 
 .category {
-	-moz-box-shadow: inset 0 0 5px #888;
+	/*-moz-box-shadow: inset 0 0 5px #888;
     -webkit-box-shadow: inset 0 0 5px #888;
-    box-shadow: inset 1px 1px 5px #888;
+    box-shadow: inset 1px 1px 5px #888;*/
 	background-color: #FFF;
 	margin: 24px 12px 24px 12px;
 	display:block;
-	box-shadow: 10px 10px 5px #888;
+	/*box-shadow: 10px 10px 2px #888;*/
 }
 
 .categoryInner {
@@ -91,6 +72,18 @@ table tr td.classtitle {
 	text-align: left;
 	background-color: #EEEEEE;
 	font-weight: 400;
+	min-width: 60px;
+}
+
+table tr td.assignmenttitle {
+	text-align: left;
+	background-color: #EEEEEE;
+	font-weight: 400;
+	min-width: 140px;
+}
+
+.assignmentnumber {
+	font-size: 14px;
 	min-width: 60px;
 }
 
