@@ -100,12 +100,8 @@ RememberedGrades.prototype.updateCycleGrades = function(course, semester, cycle,
     // TODO: used cached averages html
     this.manaTEAMS.login(function(selectInfo) {
         thisinstance.manaTEAMS.getAllCourses(function(html, courses) {
-			console.log("This");
-			cycle = (parseInt(cycle) + 3 * parseInt(semester)) + "";
-			semester = 0;
-			console.log(course, semester, cycle);
-            thisinstance.manaTEAMS.getCycleClassGrades(course, cycle, semester, html, function(cycleGrades) {
-				console.log(cycleGrades);
+			var cycletemp = (parseInt(cycle) + 3 * parseInt(semester)) + "";
+            thisinstance.manaTEAMS.getCycleClassGrades(course, cycletemp, semester, html, function(cycleGrades) {
                 chrome.storage.local.get(['cycleObj'], function(item) {
 					time = (new Date()).toTimeString();
 					$.extend(true, {'time': time}, cycleGrades, cycleGrades);
