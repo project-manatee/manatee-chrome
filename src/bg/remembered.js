@@ -42,6 +42,7 @@ RememberedGrades.prototype.updateCache = function(username, password, success, e
 RememberedGrades.prototype.loggedInCache = function(callback) {
 	chrome.storage.local.get('loggedin', function(item) {
 		if ('loggedin' in item) {
+            console.log(item.loggedin);
 			callback(item.loggedin);
 		} else {
 			callback(false);
@@ -49,7 +50,7 @@ RememberedGrades.prototype.loggedInCache = function(callback) {
 	});
 };
 
-RememberedGrades.prototype.updateGrades = function(callback) {
+RememberedGrades.prototype.updateGrades = function(notification,callback) {
     // TODO: what if manateams fail
     var thisinstance = this;
     this.manaTEAMS.login(function(selectInfo) {
@@ -72,10 +73,30 @@ RememberedGrades.prototype.updateGrades = function(callback) {
             }
 			gpa = totalGPA(courses, false);
 			courses[0].gpa = gpa;
-            chrome.storage.local.set({
-                'averagesHtml': averagesHtml,
-                'courses': courses
-            });
+            if (notification){
+                chrome.storage.local.get('courses', function(item) {
+                    var oldgrades = item.courses;
+                    if (oldgrades) {
+                        thisinstance.makeNotification(oldgrades,courses);
+                        chrome.storage.local.set({
+                            'averagesHtml': averagesHtml,
+                            'courses': courses
+                        });
+                    }
+                    else{
+                        chrome.storage.local.set({
+                            'averagesHtml': averagesHtml,
+                            'courses': courses
+                        });
+                    }
+                });
+            }
+            else{
+                chrome.storage.local.set({
+                    'averagesHtml': averagesHtml,
+                    'courses': courses
+                });
+            }
             callback(courses);
         });
     });
@@ -83,16 +104,20 @@ RememberedGrades.prototype.updateGrades = function(callback) {
 
 RememberedGrades.prototype.updateAll = function(callback) {
     var thisinstance = this;
-    this.updateGrades(function(courses) {
+    this.updateGrades(false,function(courses) {
         for (var i = 0; i < courses.length; ++i) {
             for (var j = 0; j < courses[i].semesters.length; ++j) {
                 for (var k = 0; k < courses[i].semesters[j].cycles.length; ++k) {
-                    thisinstance.updateCycleGrades(courses[i].courseId, j, k, function(f) {
-                        callback();
-                    });
+                    try{
+                        thisinstance.updateCycleGrades(courses[i].courseId, j, k, function(f) {
+                            console.log(cycleGrades)
+                        });
+                    }
+                    catch(error){}
                 }
             }
         }
+        callback();
     });
 };
 
@@ -101,11 +126,11 @@ RememberedGrades.prototype.updateCycleGrades = function(course, semester, cycle,
     // TODO: used cached averages html
     this.manaTEAMS.login(function(selectInfo) {
         thisinstance.manaTEAMS.getAllCourses(function(html, courses) {
-			var cycletemp = (parseInt(cycle) + 3 * parseInt(semester)) + "";
+            var cycletemp = (parseInt(cycle) + 3 * parseInt(semester)) + "";
             thisinstance.manaTEAMS.getCycleClassGrades(course, cycletemp, semester, html, function(cycleGrades) {
                 chrome.storage.local.get(['cycleObj'], function(item) {
-					time = (new Date()).toTimeString();
-					$.extend(true, {'time': time}, cycleGrades, cycleGrades);
+                    time = (new Date()).toTimeString();
+                    $.extend(true, {'time': time}, cycleGrades, cycleGrades);
                     var newCycleObj = {};
                     newCycleObj[course] = {};
                     newCycleObj[course][semester] = {};
@@ -131,6 +156,12 @@ RememberedGrades.prototype.getGrades = function(callback) {
         grades = item.courses;
         if (grades) {
             callback(grades, false); // callback immediately with old data, if possible
+        }
+        else{
+            console.log("No course set");
+            thisinstance.updateGrades(false,function(courses) {
+                callback(courses, true);
+            });
         }
     });
     // thisinstance.updateGrades(function(grades) {
@@ -160,9 +191,54 @@ RememberedGrades.prototype.getCycleGrades = function(course, semester, cycle, ca
 };
 
 RememberedGrades.prototype.logout = function(callback) {
-    // TODO: clear cookies
+    this.manaTEAMS = new ManaTEAMS('', '');
+    chrome.alarms.clearAll();
     chrome.storage.local.clear(function() {
-        updateCredentials('', '');
         callback();
     });
+};
+RememberedGrades.prototype.makeNotification = function(oldgrades,newgrades){
+    for (var i = 0; i < newgrades.length; i++) {
+        var oldCourse = oldgrades[i];
+        var newCourse = newgrades[i];
+        for (var d = 0; d < oldCourse.semesters.length; d++) {
+            var oldSemester = oldCourse.semesters[d];
+            var newSemester = newCourse.semesters[d];
+            
+            for (var k = 0; k < oldSemester.cycles.length; k++) {
+                var oldCycle = oldSemester.cycles[k];
+                var newCycle = newSemester.cycles[k];
+                if (k == 1 && d == 1 && i==0){
+                    console.log(oldCycle);
+                    console.log(newCycle);
+                }
+                if ((oldCycle == null || oldCycle.average == null || isNaN(parseInt(oldCycle.average))) && (newCycle == null || newCycle.average == null || isNaN(parseInt(newCycle.average)))) {
+                    // No change
+                    if (k == 1 && d == 1 && i==0){
+                        console.log(1)
+                    }
+                } else if ((oldCycle == null || oldCycle.average == null) && (newCycle != null && newCycle.average != null)) {
+                    // Grade has changed
+                    console.log("Sending notification");
+                    var options = {iconUrl: '../../icons/icon128.png'};
+                    options.type = 'basic';
+                    options.title = "New grades";
+                    options.message = 'You have a new grade of ' + newCycle.average + ' in ' + newCourse.title;
+                    chrome.notifications.create('', options, function () {});
+                } else if ((oldCycle != null && oldCycle.average != null) && (newCycle == null || newCycle.average == null)) {
+                    // This shouldn't happen, unless a teacher takes out a grade...
+                } else if (!(oldCycle.average == newCycle.average)) {
+                    // Grade has changed
+                    console.log("Sending notification");
+                    var options = {iconUrl: '../../icons/icon128.png'};
+                    options.type = 'basic';
+                    options.title = "New grades";
+                    options.message = 'Your grade in ' + newCourse.title + ' has changed from ' + oldCycle.average + ' to ' + newCycle.average;
+                    chrome.notifications.create('', options, function () {});
+                } else {
+                    // Grades already exist but nothing changed
+                }
+            }
+        }
+    }
 };

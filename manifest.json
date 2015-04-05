@@ -22,7 +22,7 @@
 		"default_popup": "src/browser_action/main.html#/loginPage"
 	},
 	"permissions": [
-//		"background",
+		"alarms",
 		"contentSettings",
 		"cookies",
 		"notifications",

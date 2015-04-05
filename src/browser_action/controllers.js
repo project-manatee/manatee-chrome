@@ -52,7 +52,9 @@ gradesApp.controller('LoginCtrl', ['$scope', '$location', '$rootScope',
 			document.getElementById('login').click();
 		};
 		rememberedGrades.loggedInCache(function(loggedin) {
-			if (loggedin) {
+			if (loggedin || rememberedGrades.manaTEAMS.isLoggedIn) {
+                console.log(loggedin);
+                console.log(rememberedGrades.manaTEAMS.isLoggedIn)
 				redirect();
 			}
 		});
@@ -60,7 +62,10 @@ gradesApp.controller('LoginCtrl', ['$scope', '$location', '$rootScope',
         $scope.updateCredentials = function(user) {
             var updatedUser = angular.copy(user);
             rememberedGrades.updateCache(updatedUser.username, updatedUser.password, function() {
-				redirect();
+				rememberedGrades.updateGrades(false,function(courses) {
+                    chrome.alarms.create("CourseAlarm", {delayInMinutes: 1, periodInMinutes: 15});   
+                    redirect();
+                });
 				// Logged in successfully from user input
             }, function(msg) {
                 // Wrong username password
@@ -73,9 +78,9 @@ gradesApp.controller('GradesCtrl', ['$scope', '$location', '$rootScope',
     function($scope, $location, $rootScope) {
         $scope.getGrades = function() {
             rememberedGrades.getGrades(function(grades, updated) {
+                $scope.grades = grades;
+                $scope.updated = updated;
                 $scope.$apply(function() {
-                    $scope.grades = grades;
-					$scope.updated = updated;
                 });
             });
         };
@@ -83,10 +88,13 @@ gradesApp.controller('GradesCtrl', ['$scope', '$location', '$rootScope',
 
         $scope.logout = function() {
             rememberedGrades.logout(function() {
-                $rootScope.$apply(function() {
-                    $location.path('/loginPage');
+
+                $location.path('/loginPage');
+                $scope.$apply(function() {
                 });
             });
+            
+            
         };
         $scope.getCycle = function(course, semester, cycle) {
 			url = '#/viewCycle' + course + '/' + semester + '/' + cycle;
@@ -110,6 +118,7 @@ gradesApp.controller('CycleCtrl', ['$scope', '$location', '$rootScope', '$routeP
 					console.log(cycleGrades);
                     $scope.classGrade = cycleGrades;
 					$scope.updated = updated;
+                    $scope.cyclenum = (parseInt(semesterid)*3 + parseInt(cycleid))+ parseInt(1);
                 });
             });
         };

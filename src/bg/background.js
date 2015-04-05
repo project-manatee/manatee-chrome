@@ -3,11 +3,24 @@
 // var settings = new Store("settings", {
 //     "sample_setting": "This is how you use Store.js to remember values"
 // });
-
+function sleep (seconds) {
+    var start = new Date().getTime();
+    while (new Date() < start + seconds*1000) {}
+    return 0;
+}
 rememberedGrades = new RememberedGrades();
 console.log(rememberedGrades);
 //rememberedGrades.loginCache(function() { console.log('success'); }, function(msg) { console.log(msg); });
 rememberedGrades.loginCache(function() { }, function(msg) { });
+chrome.alarms.onAlarm.addListener(function( alarm ) {
+  console.log("Got an alarm!", alarm);
+   rememberedGrades.updateGrades(true,function(courses) {
+    });
+});
+
+
+
+
 
 // TODO: this
 // function Clock(delay, callback, name) {
