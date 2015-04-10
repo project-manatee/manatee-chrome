@@ -169,25 +169,33 @@ RememberedGrades.prototype.getGrades = function(callback) {
     // });
 };
 
-RememberedGrades.prototype.getCycleGrades = function(course, semester, cycle, callback) {
+RememberedGrades.prototype.getCycleGrades = function(course, semester, cycle,cached ,callback) {
 	console.log("1:", course, semester, cycle);
 	var thisinstance =  this;
-    chrome.storage.local.get(['cycleObj'], function(item) {
-		if ('cycleObj' in item && course in item.cycleObj && semester in item.cycleObj[course] && cycle in item.cycleObj[course][semester]) {
-			cycleGrades = item.cycleObj[course][semester][cycle];
-			if (cycleGrades) {
-				callback(cycleGrades, false); // callback immediately with old data, if possible
-			} else {
-				thisinstance.updateCycleGrades(course, semester, cycle, function(cycleGrades) {
-					callback(cycleGrades, true);
-				}); // callback later with new data
-			}
-		} else {
-			thisinstance.updateCycleGrades(course, semester, cycle, function(cycleGrades) {
-				callback(cycleGrades, true);
-			}); // callback later with new data
-		}
-    });
+    if (cached == true){
+            chrome.storage.local.get(['cycleObj'], function(item) {
+            if ('cycleObj' in item && course in item.cycleObj && semester in item.cycleObj[course] && cycle in item.cycleObj[course][semester]) {
+                cycleGrades = item.cycleObj[course][semester][cycle];
+                if (cycleGrades) {
+                    callback(cycleGrades, false); // callback immediately with old data, if possible
+                } else {
+                    thisinstance.updateCycleGrades(course, semester, cycle, function(cycleGrades) {
+                        callback(cycleGrades, true);
+                    }); // callback later with new data
+                }
+            } else {
+                thisinstance.updateCycleGrades(course, semester, cycle, function(cycleGrades) {
+                    callback(cycleGrades, true);
+                }); // callback later with new data
+            }
+        });
+    }
+    else {
+        thisinstance.updateCycleGrades(course, semester, cycle, function(cycleGrades) {
+            callback(cycleGrades, true);
+        }); // callback later with new data
+    }
+   
 };
 
 RememberedGrades.prototype.logout = function(callback) {
