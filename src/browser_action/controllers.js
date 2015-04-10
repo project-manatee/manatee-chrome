@@ -63,7 +63,7 @@ gradesApp.controller('LoginCtrl', ['$scope', '$location', '$rootScope',
             var updatedUser = angular.copy(user);
             rememberedGrades.updateCache(updatedUser.username, updatedUser.password, function() {
 				rememberedGrades.updateGrades(false,function(courses) {
-                    chrome.alarms.create("CourseAlarm", {delayInMinutes: 1, periodInMinutes: 15});   
+                    chrome.alarms.create("CourseAlarm", {delayInMinutes: 15, periodInMinutes: 15});   
                     redirect();
                 });
 				// Logged in successfully from user input
