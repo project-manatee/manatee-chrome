@@ -14,13 +14,11 @@
                 <td class="title">Assignment</td>
                 <td class="title">Pts Earned</td>
                 <td class="title">Pts Possible</td>
-                <td class="title">Weight</td>
             </tr>
             <tr ng-repeat="assignment in category.assignments">
                 <td class="assignmenttitle" data-title="'title'">{{assignment.title}}</td>
                 <td class="assignmentnumber" data-title="'points earned'">{{assignment.ptsEarned}}</td>
                 <td class="assignmentnumber" data-title="'points possible'">{{assignment.ptsPossible}}</td>
-                <td class="assignmentnumber" data-title="'weight'">{{assignment.weight}}</td>
             </tr>
         </table>
         <p class="categoryAverage" data-title="'Average'">Average: {{category.average}}</p>
