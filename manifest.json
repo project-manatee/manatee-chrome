@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"manifest_version": 2,
 	"description": "View grades from AISD's TEAMS gradebook.",
-	"homepage_url": "http://extensionizr.com",
+	"homepage_url": "http://manateams.com",
 	"icons": {
 		"16": "icons/16.png",
 		"48": "icons/48.png",
@@ -26,7 +26,8 @@
 		"contentSettings",
 		"cookies",
 		"notifications",
-		"*://*/*",
-	"storage"
+		"https://*.austinisd.org/",
+		"http://*.austinisd.org/",
+		"storage"
 	]
 }
