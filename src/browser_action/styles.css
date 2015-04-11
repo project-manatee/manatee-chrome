@@ -257,6 +257,12 @@ input:focus ~ .highlight {
   text-align: center;
 }
 
+.cycleSpinner {
+	height: 250px;
+	margin-left: 250px;
+	margin-top: 200px;
+}
+
 .spinner > div {
   width: 18px;
   height: 18px;

@@ -3,6 +3,13 @@
     <h1 data-title="'Cycle'">Cycle {{cyclenum}}</h1>
     <button class="actionbarButton" ng-click="viewCourses()">Go back</button>
 </div>
+
+<div class="spinner cycleSpinner" id="spin" ng-show="cycleLoading">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+</div>
+
 <div class="category" ng-repeat="category in classGrade.categories">
     <div class="categoryInner">
         <div class="categoryHeader">

@@ -133,6 +133,7 @@ gradesApp.controller('GradesCtrl', ['$scope', '$location', '$rootScope',
 
 gradesApp.controller('CycleCtrl', ['$scope', '$location', '$rootScope', '$routeParams',
     function($scope, $location, $rootScope, $routeParams) {
+        $scope.cycleLoading = true;
         var courseid = $routeParams.courseid;
         var semesterid = $routeParams.semester;
         var cycleid = $routeParams.cycle;
@@ -141,6 +142,7 @@ gradesApp.controller('CycleCtrl', ['$scope', '$location', '$rootScope', '$routeP
             rememberedGrades.getCycleGrades(courseid, semesterid, cycleid, false,function(cycleGrades, updated) {
 				// TODO: standardaize variable names cycleGrades classGrade
                 $scope.$apply(function() {
+                    $scope.cycleLoading = false;
 					console.log(cycleGrades);
                     $scope.classGrade = cycleGrades;
 					$scope.updated = updated;
