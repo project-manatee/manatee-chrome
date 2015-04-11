@@ -28,14 +28,14 @@ function totalGPA(courses, weighted, weightedCourses,excludedCourses) {
         x = courses[i];
         for (var j = 0; j < courses[i].semesters.length; ++j) {
             y = x.semesters[j];
-            count++;
             if (excludedCourses[x.courseId] == true){
 
             }
             else if (weighted) {
-                console.log(x.title,y.average)
+                count++;
                 sum += gradePoints(y.average, (weightedCourses[x.courseId]) ? 'weighted' : '');
             } else {
+                count++;
                 sum += gradePoints(y.average, '');
             }
         }
