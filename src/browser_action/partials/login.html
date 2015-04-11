@@ -1,26 +1,28 @@
 <div class="actionbar short">
     <h1>Login to manaTEAMS</h1>
 </div>
+
+
 <form novalidate class="credentialform">
     <div class="group">
-        <input ng-model="user.username" type="text" id="username">
+        <input ng-model="user.username" ng-disabled="loading" type="text" id="username">
         <span class="highlight"></span>
         <span class="bar"></span>
         <label>Username</label>
     </div>
     <div class="group">
-        <input ng-model="user.password" type="password" id="password">
+        <input ng-model="user.password" ng-disabled="loading" type="password" id="password">
         <span class="highlight"></span>
         <span class="bar"></span>
         <label>Password</label>
     </div>
     <div class="group">
-        <input ng-model="user.studentid" type="text" pattern="\d*" id="studentid">
+        <input ng-model="user.studentid" ng-disabled="loading" type="text" pattern="\d*" id="studentid">
         <span class="highlight"></span>
         <span class="bar"></span>
         <label>Student ID</label>
     </div>
-    <button class="loginButton" ng-click="updateCredentials(user);">Login</button>
+    <button class="loginButton" ng-disabled="loading" ng-click="updateCredentials(user);">Login</button>
 </form>
 <h4 ng-show="errorDisplay">Invalid username, password, or student ID. Double check your credentials, and log in again.</h4>
 
