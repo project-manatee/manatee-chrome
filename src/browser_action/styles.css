@@ -9,7 +9,12 @@ body {
 	padding: 0px;
 	margin: 0px;
 }
-
+.actionbar a:hover,a:active{
+   color:white; 
+}
+.actionbar a:link,a:visited {
+   color:white; 
+}
 .courseHeader {
 	display: block;
 	margin:auto;

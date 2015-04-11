@@ -13,5 +13,5 @@ require(['sha1',
     'classes/Cycle',
     'ManaTEAMS'
 ], function() {
-	require(['./math.js', './remembered.js', './background.js']);
+	require(['../math.js', './remembered.js', './background.js']);
 });

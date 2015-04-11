@@ -1,0 +1,16 @@
+<div class="actionbar">
+    <h1 data-title="'Title'">GPA Settings</h1>
+    <button class="actionbarButton" ng-click="viewCourses()">Go back</button>
+</div>
+<table ng-table>
+    <tr>
+        <td class="title">Course</td>
+        <td class="title">Weighted</td>
+        <td class="title">Excluded</td>
+    </tr>
+    <tr ng-repeat="course in grades" ng-init="course_index = $index" >
+        <td class="classtitle" data-title="'Class'">{{course.title}}</td>
+        <td><input type="checkbox" name="weighted{{course.title}}" ng-model="selection.weighted[course.courseId]" ng-change="onClick()"></td>
+        <td><input type="checkbox" name="excluded{{course.title}}" ng-model="selection.excluded[course.courseId]" ng-change="onClick()"></td>
+    </tr>
+</table>

@@ -71,8 +71,17 @@ RememberedGrades.prototype.updateGrades = function(notification,callback) {
                     }
                 }
             }
-			gpa = totalGPA(courses, false);
-			courses[0].gpa = gpa;
+            chrome.storage.local.get('coursesettings', function(item) {
+                var coursesettings = item.coursesettings;
+                if (coursesettings){
+                    var gpa = totalGPA(courses, true,coursesettings.weighted,coursesettings.excluded);
+                    courses[0].gpa = gpa;
+                }
+                else{
+                    var gpa = totalGPA(courses, true,{},{});
+                    courses[0].gpa = gpa;
+                }
+            });
             if (notification){
                 chrome.storage.local.get('courses', function(item) {
                     var oldgrades = item.courses;

@@ -43,6 +43,10 @@ gradesApp.config(['$routeProvider',
             templateUrl: 'partials/viewCycle.html',
             controller: 'CycleCtrl'
         });
+        $routeProvider.when('/settings', {
+            templateUrl: 'partials/settings.html',
+            controller: 'SettingsCtrl'
+        });
     }
 ]);
 
@@ -63,8 +67,20 @@ gradesApp.controller('LoginCtrl', ['$scope', '$location', '$rootScope',
             var updatedUser = angular.copy(user);
             rememberedGrades.updateCache(updatedUser.username, updatedUser.password, function() {
 				rememberedGrades.updateGrades(false,function(courses) {
-                    chrome.alarms.create("CourseAlarm", {delayInMinutes: 15, periodInMinutes: 15});   
-                    redirect();
+                    chrome.storage.local.get('courses', function(item) {
+                        var courses = item.courses;
+                        if (courses) {
+                            chrome.alarms.create("CourseAlarm", {delayInMinutes: 15, periodInMinutes: 15});   
+                            var gpa = totalGPA(courses, true, {}, {});
+                            courses[0].gpa = gpa;
+                            chrome.storage.local.set({
+                                'courses': courses,
+                                'coursesettings': $scope.selection
+                            });
+                            redirect();
+                        }
+                    });
+                   
                 });
 				// Logged in successfully from user input
             }, function(msg) {
@@ -132,6 +148,51 @@ gradesApp.controller('CycleCtrl', ['$scope', '$location', '$rootScope', '$routeP
                 $rootScope.$apply(function() {
                     $location.path('/loginPage');
                 });
+            });
+        };
+    }
+]);
+gradesApp.controller('SettingsCtrl', ['$scope', '$location', '$rootScope',
+    function($scope, $location, $rootScope) {
+        chrome.storage.local.get('coursesettings', function(item) {
+            var coursesettings = item.coursesettings;
+            if (coursesettings){
+                $scope.selection = coursesettings;
+            }
+            else{
+                $scope.selection = {
+                    weighted: {},
+                    excluded:{}
+                };
+            }
+        });
+        $scope.selection = {
+            weighted: {},
+            excluded:{}
+        };
+        $scope.getGrades = function() {
+            rememberedGrades.getGrades(function(grades, updated) {
+                $scope.grades = grades;
+                $scope.updated = updated;
+                $scope.$apply(function() {});
+            });
+        };
+        $scope.getGrades();
+        $scope.viewCourses = function() {
+            $location.path('/viewGrades');
+        };
+        $scope.onClick = function() {
+            console.log("Saving value....", $scope.selection);
+            chrome.storage.local.get('courses', function(item) {
+                var courses = item.courses;
+                if (courses) {
+                    var gpa = totalGPA(courses, true, $scope.selection.weighted, $scope.selection.excluded);
+                    courses[0].gpa = gpa;
+                    chrome.storage.local.set({
+                        'courses': courses,
+                        'coursesettings': $scope.selection
+                    });
+                }
             });
         };
     }

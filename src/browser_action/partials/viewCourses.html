@@ -1,7 +1,7 @@
 <div class="actionbar">
     <h1>manaTEAMS</h1>
     <h3>Updated: {{grades[0].time | date:'M/d'}} at {{grades[0].time | date:'h:mm a'}}</h3>
-    <h3>GPA: {{grades[0].gpa}}</h3>
+    <a href="#/settings" id="settingslink"><h3>GPA: {{grades[0].gpa}}</h3></a>
     <button class="actionbarButton" ng-click="logout()">Logout</button>
 </div>
 
