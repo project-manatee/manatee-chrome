@@ -28,6 +28,7 @@
 		"notifications",
 		"https://*.austinisd.org/",
 		"http://*.austinisd.org/",
+		"https://.austinisd.org/",
 		"storage"
 	]
 }
