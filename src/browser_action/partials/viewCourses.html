@@ -1,11 +1,18 @@
 <div class="actionbar">
     <h1>manaTEAMS</h1>
     <h3>Updated: {{grades[0].time | date:'M/d'}} at {{grades[0].time | date:'h:mm a'}}</h3>
-    <a href="#/settings" id="settingslink"><h3>GPA: {{grades[0].gpa}}</h3></a>
+    <a href="#/settings" id="settingslink"><h3>GPA: {{gpa}}</h3></a>
     <button class="actionbarButton" ng-click="logout()">Logout</button>
+    <button class="actionbarButton" ng-click="refresh()">Refresh</button>
 </div>
 
-<table ng-table>
+<div class="spinner courseSpinner" id="spin" ng-show="loadingCourses">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+</div>
+
+<table ng-table ng-hide="loadingCourses">
     <tr>
         <td class="title">Course</td>
         <td class="title">Cycle 1</td>

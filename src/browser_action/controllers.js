@@ -52,19 +52,16 @@ gradesApp.config(['$routeProvider',
 
 gradesApp.controller('LoginCtrl', ['$scope', '$location', '$rootScope',
     function($scope, $location, $rootScope) {
+        var thisistance = $scope;
         $scope.loading = false;
         $scope.errorDisplay = false;
 		redirect = function() {
 			document.getElementById('login').click();
 		};
-		rememberedGrades.loggedInCache(function(loggedin) {
-			if (loggedin || rememberedGrades.manaTEAMS.isLoggedIn) {
-                console.log(loggedin);
-                console.log(rememberedGrades.manaTEAMS.isLoggedIn)
-				redirect();
-			}
-		});
-
+		chrome.storage.local.get('loggedin', function(item) {
+            if(item.loggedin)
+                redirect();
+        });
         $scope.updateCredentials = function(user) {
             $scope.loading = true;
             $scope.errorDisplay = false;
@@ -75,26 +72,31 @@ gradesApp.controller('LoginCtrl', ['$scope', '$location', '$rootScope',
                     console.log("updating grades");
                     chrome.storage.local.get('courses', function(item) {
                         var courses = item.courses;
-                        if (courses) {
+                        if (courses && courses[0]) {
                             chrome.alarms.create("CourseAlarm", {delayInMinutes: 15, periodInMinutes: 15});   
                             var gpa = totalGPA(courses, true, {}, {});
-                            courses[0].gpa = gpa;
                             chrome.storage.local.set({
                                 'courses': courses,
-                                'coursesettings': $scope.selection
+                                'coursesettings': $scope.selection,
+                                'gpa':gpa,
+                                'loggedin':true
                             });
                             $scope.loading = false;
                             redirect();
                         }
+                        else{
+                            thisistance.loading = false;
+                            thisistance.errorDisplay = true;
+                            thisistance.$apply();
+                        }
                     });
                    
                 });
-				// Logged in successfully from user input
             }, function(msg) {
                 console.log("Login error");
                 $scope.loading = false;
                 $scope.errorDisplay = true;
-                // Wrong username password
+                $scope.$apply();
             });
         };
     }
@@ -104,13 +106,25 @@ gradesApp.controller('GradesCtrl', ['$scope', '$location', '$rootScope',
     function($scope, $location, $rootScope) {
         $scope.getGrades = function() {
             rememberedGrades.getGrades(function(grades, updated) {
-                $scope.grades = grades;
-                $scope.updated = updated;
-                $scope.$apply(function() {
+                chrome.storage.local.get('gpa', function(item) {
+                    $scope.grades = grades;
+                    $scope.grades = grades;
+                    $scope.updated = updated;
+                    $scope.gpa = item.gpa;
+                    $scope.loadingCourses = false;
+                    $scope.$apply();
                 });
+              
             });
         };
         $scope.getGrades();
+
+        $scope.refresh = function() {
+            $scope.loadingCourses = true;
+            rememberedGrades.updateGrades(false, function(courses) {
+                $scope.getGrades();      
+            });
+        };
 
         $scope.logout = function() {
             rememberedGrades.logout(function() {
@@ -133,6 +147,7 @@ gradesApp.controller('GradesCtrl', ['$scope', '$location', '$rootScope',
 
 gradesApp.controller('CycleCtrl', ['$scope', '$location', '$rootScope', '$routeParams',
     function($scope, $location, $rootScope, $routeParams) {
+        $scope.cycleLoading = true;
         var courseid = $routeParams.courseid;
         var semesterid = $routeParams.semester;
         var cycleid = $routeParams.cycle;
@@ -141,6 +156,7 @@ gradesApp.controller('CycleCtrl', ['$scope', '$location', '$rootScope', '$routeP
             rememberedGrades.getCycleGrades(courseid, semesterid, cycleid, false,function(cycleGrades, updated) {
 				// TODO: standardaize variable names cycleGrades classGrade
                 $scope.$apply(function() {
+                    $scope.cycleLoading = false;
 					console.log(cycleGrades);
                     $scope.classGrade = cycleGrades;
 					$scope.updated = updated;
@@ -197,10 +213,10 @@ gradesApp.controller('SettingsCtrl', ['$scope', '$location', '$rootScope',
                 var courses = item.courses;
                 if (courses) {
                     var gpa = totalGPA(courses, true, $scope.selection.weighted, $scope.selection.excluded);
-                    courses[0].gpa = gpa;
                     chrome.storage.local.set({
                         'courses': courses,
-                        'coursesettings': $scope.selection
+                        'coursesettings': $scope.selection,
+                        'gpa':gpa
                     });
                 }
             });

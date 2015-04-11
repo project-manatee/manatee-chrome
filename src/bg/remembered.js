@@ -75,12 +75,14 @@ RememberedGrades.prototype.updateGrades = function(notification,callback) {
                 var coursesettings = item.coursesettings;
                 if (coursesettings){
                     var gpa = totalGPA(courses, true,coursesettings.weighted,coursesettings.excluded);
-                    courses[0].gpa = gpa;
                 }
                 else{
                     var gpa = totalGPA(courses, true,{},{});
-                    courses[0].gpa = gpa;
+                    
                 }
+                chrome.storage.local.set({
+                    'gpa': gpa
+                });
             });
             if (notification){
                 chrome.storage.local.get('courses', function(item) {
