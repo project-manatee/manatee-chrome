@@ -52,6 +52,8 @@ gradesApp.config(['$routeProvider',
 
 gradesApp.controller('LoginCtrl', ['$scope', '$location', '$rootScope',
     function($scope, $location, $rootScope) {
+        $scope.loading = false;
+        $scope.errorDisplay = false;
 		redirect = function() {
 			document.getElementById('login').click();
 		};
@@ -64,9 +66,13 @@ gradesApp.controller('LoginCtrl', ['$scope', '$location', '$rootScope',
 		});
 
         $scope.updateCredentials = function(user) {
+            $scope.loading = true;
+            $scope.errorDisplay = false;
             var updatedUser = angular.copy(user);
             rememberedGrades.updateCache(updatedUser.username, updatedUser.password, function() {
+                console.log("updating cache");
 				rememberedGrades.updateGrades(false,function(courses) {
+                    console.log("updating grades");
                     chrome.storage.local.get('courses', function(item) {
                         var courses = item.courses;
                         if (courses) {
@@ -77,6 +83,7 @@ gradesApp.controller('LoginCtrl', ['$scope', '$location', '$rootScope',
                                 'courses': courses,
                                 'coursesettings': $scope.selection
                             });
+                            $scope.loading = false;
                             redirect();
                         }
                     });
@@ -84,6 +91,9 @@ gradesApp.controller('LoginCtrl', ['$scope', '$location', '$rootScope',
                 });
 				// Logged in successfully from user input
             }, function(msg) {
+                console.log("Login error");
+                $scope.loading = false;
+                $scope.errorDisplay = true;
                 // Wrong username password
             });
         };

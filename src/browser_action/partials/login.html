@@ -20,6 +20,14 @@
         <span class="bar"></span>
         <label>Student ID</label>
     </div>
-    <button class="loginButton" ng-click="updateCredentials(user)">Login</button>
+    <button class="loginButton" ng-click="updateCredentials(user);">Login</button>
 </form>
+<h4 ng-show="errorDisplay">Invalid username, password, or student ID. Double check your credentials, and log in again.</h4>
+
+<div class="spinner" id="spin" ng-show="loading">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+</div>
+
 <a href="#/viewGrades" id="login" style="display: none;">Don't click this</a>
