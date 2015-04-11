@@ -77,6 +77,7 @@ gradesApp.controller('LoginCtrl', ['$scope', '$location', '$rootScope',
                         var courses = item.courses;
                         if (courses) {
                             chrome.alarms.create("CourseAlarm", {delayInMinutes: 15, periodInMinutes: 15});   
+                            // This is cancer. Why is GPA included in the courses object? -Neil
                             var gpa = totalGPA(courses, true, {}, {});
                             courses[0].gpa = gpa;
                             chrome.storage.local.set({
@@ -106,11 +107,19 @@ gradesApp.controller('GradesCtrl', ['$scope', '$location', '$rootScope',
             rememberedGrades.getGrades(function(grades, updated) {
                 $scope.grades = grades;
                 $scope.updated = updated;
+                $scope.loadingCourses = false;
                 $scope.$apply(function() {
                 });
             });
         };
         $scope.getGrades();
+
+        $scope.refresh = function() {
+            $scope.loadingCourses = true;
+            rememberedGrades.updateGrades(false, function(courses) {
+                $scope.getGrades();      
+            });
+        };
 
         $scope.logout = function() {
             rememberedGrades.logout(function() {

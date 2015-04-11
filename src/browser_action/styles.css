@@ -143,7 +143,9 @@ button {
 
 .actionbarButton {
 	float: right;
-  	vertical-align: top;
+  vertical-align: top;
+  margin-left: 4px;
+  margin-right: 4px;
 }
 .credentialform {
 	padding: 4px 4px 4px 24px;
@@ -261,6 +263,12 @@ input:focus ~ .highlight {
 	height: 250px;
 	margin-left: 250px;
 	margin-top: 200px;
+}
+
+.courseSpinner {
+  height: 250px;
+  width: 600px;
+  margin-top: 200px;
 }
 
 .spinner > div {
