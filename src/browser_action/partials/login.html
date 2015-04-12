@@ -24,7 +24,7 @@
     </div>
     <button class="loginButton" ng-disabled="loading" ng-click="updateCredentials(user);">Login</button>
 </form>
-<h4 ng-show="errorDisplay">Invalid username, password, or student ID. Double check your credentials, and log in again.</h4>
+<h4 ng-show="errorDisplay">{{error}}</h4>
 
 <div class="spinner" id="spin" ng-show="loading">
     <div class="bounce1"></div>

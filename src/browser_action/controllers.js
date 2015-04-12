@@ -93,7 +93,13 @@ gradesApp.controller('LoginCtrl', ['$scope', '$location', '$rootScope',
                    
                 });
             }, function(msg) {
-                console.log("Login error");
+                console.log(msg);
+                if (msg == "timeout"){
+                    $scope.error = "ManaTEAMS encountered an issue trying to connect to TEAMS. Please check your connection to https://grades.austinisd.org and try again.";
+                }
+                else{
+                    $scope.error = "Invalid username, password, or student ID. Double check your credentials, and log in again.";
+                }
                 $scope.loading = false;
                 $scope.errorDisplay = true;
                 $scope.$apply();

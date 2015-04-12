@@ -21,6 +21,7 @@ RememberedGrades.prototype.loginCache = function(success, error) {
 				chrome.storage.local.set({'loggedin': true});
 				success();
 			}, function(data) {
+                console.log("Login Cache Error:",data);
 				chrome.storage.local.set({'loggedin': false});
 				error(data);
 			});
@@ -110,6 +111,8 @@ RememberedGrades.prototype.updateGrades = function(notification,callback) {
             }
             callback(courses);
         });
+    },function (error){
+        console.log(error);
     });
 };
 
@@ -158,6 +161,8 @@ RememberedGrades.prototype.updateCycleGrades = function(course, semester, cycle,
                 });
             });
         });
+    },function (error){
+        console.log(error);
     });
 };
 
