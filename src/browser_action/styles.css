@@ -24,16 +24,16 @@ body {
 
 .categoryAverage {
 	font-size: 18px;
-	padding: 0px 0px 0px 0px;
-	margin: 12px 12px 12px 12px;
+	padding: 0px;
+	margin: 12px;
 }
 
 .categoryWeight, .categoryTitle {
 	font-size: 24px;
 	display: inline;
 	font-weight: 300;
-	padding: 0px 0px 0px 0px;
-	margin: 12px 12px 12px 12px;
+	padding: 0px;
+	margin: 12px;
 }
 
 .categoryWeight {
@@ -87,7 +87,20 @@ table tr td.classtitle {
 table tr td.assignmenttitle {
 	text-align: left;
 	font-weight: 400;
+  font-size: 14px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin-top: 2px;
+  margin-bottom: 2px;
 	width: 275px;
+}
+
+table tr:nth-child(even) {
+  background-color: #D8D8D8;
+}
+
+table tr:nth-child(odd) {
+  background-color: #F2F2F2;
 }
 
 .assignmentnumber {
