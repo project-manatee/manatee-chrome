@@ -133,6 +133,8 @@ a.grade:hover {
 }
 .actionbar h1 {
 	padding: 12px 24px 12px 12px;
+}
+.cyclebar h1 {
   text-transform: uppercase;
 }
 .actionbar h3 {
@@ -281,8 +283,8 @@ input:focus ~ .highlight {
 }
 
 .courseSpinner {
-  height: 250px;
-  width: 600px;
+  height: 200px;
+  width: 638px;
   margin-top: 200px;
 }
 
