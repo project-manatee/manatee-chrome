@@ -9,7 +9,7 @@ roundx = function(number, digits) {
 DEFAULT_GPA_PRECISION = 4;
 function gradePoints(grade, code) {
     if (isNaN(grade))
-        return grade;
+        return 4;
     if (grade < 70)
         return 0;
     if (code === 'weighted') {
@@ -24,21 +24,25 @@ function gradePoints(grade, code) {
 function totalGPA(courses, weighted, weightedCourses,excludedCourses) {
     sum = 0;
     count = 0;
-    for (var i = 0; i < courses.length; ++i) {
-        x = courses[i];
-        for (var j = 0; j < courses[i].semesters.length; ++j) {
-            y = x.semesters[j];
-            if (excludedCourses[x.courseId] == true){
-
-            }
-            else if (weighted) {
-                count++;
-                sum += gradePoints(y.average, (weightedCourses[x.courseId]) ? 'weighted' : '');
-            } else {
-                count++;
-                sum += gradePoints(y.average, '');
+    for (var i = 0; i < courses.length; i++) {
+        var x = courses[i];
+        for (var j = 0; j < courses[i].semesters.length; j++) {
+            var y = x.semesters[j];
+            if (!excludedCourses[x.courseId] == true){
+                if (weighted) {
+                    if(!isNaN(y.average)) {
+                        sum += gradePoints(y.average, (weightedCourses[x.courseId]) ? 'weighted' : '');
+                        count++;
+                    }
+                } else {
+                    if(!isNaN(y.average)) {
+                        count++;
+                        sum += gradePoints(y.average, '');
+                    }
+                }
             }
         }
     }
     return roundx(sum / count,5);
+
 }
