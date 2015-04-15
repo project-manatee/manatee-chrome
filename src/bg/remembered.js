@@ -104,7 +104,6 @@ RememberedGrades.prototype.updateGrades = function(notification,callback) {
                 });
             }
             else{
-                console.log(courses);
                 chrome.storage.local.set({
                     'averagesHtml': averagesHtml,
                     'courses': courses
