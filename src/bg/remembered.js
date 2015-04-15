@@ -104,6 +104,7 @@ RememberedGrades.prototype.updateGrades = function(notification,callback) {
                 });
             }
             else{
+                console.log(courses);
                 chrome.storage.local.set({
                     'averagesHtml': averagesHtml,
                     'courses': courses
@@ -244,7 +245,7 @@ RememberedGrades.prototype.makeNotification = function(oldgrades,newgrades){
                 } else if ((oldCycle == null || oldCycle.average == null) && (newCycle != null && newCycle.average != null)) {
                     // Grade has changed
                     console.log("Sending notification");
-                    var options = {iconUrl: '../../icons/icon128.png'};
+                    var options = {iconUrl: '../../icons/128.png'};
                     options.type = 'basic';
                     options.title = "New grades";
                     options.message = 'You have a new grade of ' + newCycle.average + ' in ' + newCourse.title;
@@ -254,7 +255,7 @@ RememberedGrades.prototype.makeNotification = function(oldgrades,newgrades){
                 } else if (!(oldCycle.average == newCycle.average)) {
                     // Grade has changed
                     console.log("Sending notification");
-                    var options = {iconUrl: '../../icons/icon128.png'};
+                    var options = {iconUrl: '../../icons/128.png'};
                     options.type = 'basic';
                     options.title = "New grades";
                     options.message = 'Your grade in ' + newCourse.title + ' has changed from ' + oldCycle.average + ' to ' + newCycle.average;
